@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_vertical_margin">
+
+    <ImageView
+        android:id="@+id/paris_image_view"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/paris" />
+
+    <TextView
+        android:id="@+id/eiffel_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/paris_image_view"
+        android:paddingLeft="10dp"
+        android:text="Eiffel Tower"
+        android:textAppearance="?android:textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/paris_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/paris_image_view"
+        android:layout_below="@id/eiffel_text_view"
+        android:paddingLeft="10dp"
+        android:text="Paris"
+        android:textAppearance="?android:textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/france_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/paris_image_view"
+        android:layout_below="@id/paris_text_view"
+        android:paddingLeft="10dp"
+        android:text="France"
+        android:textAppearance="?android:textAppearanceMedium" />
+
+</RelativeLayout>

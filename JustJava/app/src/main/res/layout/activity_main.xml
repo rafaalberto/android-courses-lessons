@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="ra.com.br.justjava.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Quantity"
+        android:textAllCaps="true"
+        android:textAppearance="?android:textAppearanceMedium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="decrement"
+            android:text="-"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/text_view_quantity"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="0"
+            android:textAlignment="center"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="increment"
+            android:text="+"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Price"
+        android:textAllCaps="true"
+        android:textAppearance="?android:textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/text_view_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="0"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:onClick="submitOrder"
+        android:text="Order"
+        android:textAllCaps="true"
+        android:textAppearance="?android:textAppearanceMedium" />
+
+</LinearLayout>
