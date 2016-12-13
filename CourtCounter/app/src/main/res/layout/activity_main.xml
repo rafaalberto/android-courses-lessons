@@ -1,55 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:padding="16dp"
     tools:context="com.example.rafael.courtcounter.MainActivity">
 
-    <TextView
-        android:id="@+id/text_view_team_a"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Team A" />
-
-    <TextView
-        android:id="@+id/text_view_points"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_team_a"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="3" />
-
-    <Button
-        android:id="@+id/button_three_points"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_points"
-        android:layout_marginTop="10dp"
-        android:text="+3 points" />
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_two_points"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_three_points"
-        android:text="+2 points" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Team A" />
 
-    <Button
-        android:id="@+id/button_free_throw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_two_points"
-        android:text="Free Throw" />
+        <TextView
+            android:id="@+id/text_view_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="0" />
 
-    <Button
-        android:id="@+id/button_reset"
+        <Button
+            android:id="@+id/button_three_points"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="setThreePoints"
+            android:text="+3 Points" />
+
+        <Button
+            android:id="@+id/button_two_points"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="setTwoPoints"
+            android:text="+2 Points" />
+
+        <Button
+            android:id="@+id/button_free_throw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="setFreeThrow"
+            android:text="Free Throw" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Reset" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/button_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="reset"
+            android:text="Reset" />
+
+    </LinearLayout>
+
+</LinearLayout>
