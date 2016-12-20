@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int ONE_POINT = 1;
     private static final int ZERO_POINT = 0;
 
-    int points = ZERO_POINT;
+    int points[] = new int[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,28 +20,50 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void setThreePoints(View view) {
-        points = points + THREE_POINTS;
-        displayPoints(points);
+    public void setThreePointsTeamA(View view) {
+        points[0] = points[0] + THREE_POINTS;
+        displayPointsTeamA(points[0]);
     }
 
-    public void setTwoPoints(View view) {
-        points = points + TWO_POINTS;
-        displayPoints(points);
+    public void setTwoPointsTeamA(View view) {
+        points[0] = points[0] + TWO_POINTS;
+        displayPointsTeamA(points[0]);
     }
 
-    public void setFreeThrow(View view) {
-        points = points + ONE_POINT;
-        displayPoints(points);
+    public void setFreeThrowTeamA(View view) {
+        points[0] = points[0] + ONE_POINT;
+        displayPointsTeamA(points[0]);
+    }
+
+    public void setThreePointsTeamB(View view) {
+        points[1] = points[1] + THREE_POINTS;
+        displayPointsTeamB(points[1]);
+    }
+
+    public void setTwoPointsTeamB(View view) {
+        points[1] = points[1] + TWO_POINTS;
+        displayPointsTeamB(points[1]);
+    }
+
+    public void setFreeThrowTeamB(View view) {
+        points[1] = points[1] + ONE_POINT;
+        displayPointsTeamB(points[1]);
     }
 
     public void reset(View view) {
-        points = ZERO_POINT;
-        displayPoints(ZERO_POINT);
+        points[0] = ZERO_POINT;
+        points[1] = ZERO_POINT;
+        displayPointsTeamA(ZERO_POINT);
+        displayPointsTeamB(ZERO_POINT);
     }
 
-    private void displayPoints(int points) {
-        TextView textViewPoints = (TextView) findViewById(R.id.text_view_points);
+    private void displayPointsTeamA(int points) {
+        TextView textViewPoints = (TextView) findViewById(R.id.text_view_points_team_a);
+        textViewPoints.setText(String.valueOf(points));
+    }
+
+    private void displayPointsTeamB(int points) {
+        TextView textViewPoints = (TextView) findViewById(R.id.text_view_points_team_b);
         textViewPoints.setText(String.valueOf(points));
     }
 }
