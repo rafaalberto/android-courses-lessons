@@ -8,73 +8,46 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int MINIMUM_QUANTITY = 0;
-    private static final int UNITY_PRICE = 5;
-    private static final int ONE = 1;
+    private static final String ZERO = "0";
     private static final String EMPTY = "";
 
-    int quantity = MINIMUM_QUANTITY;
+    private MainService mainService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainService = new MainService();
     }
 
     public void increment(View view) {
-        quantity = quantity + ONE;
-        displayQuantity(quantity);
+        getTextViewQuantity().setText(String.valueOf(mainService.increment()));
     }
 
     public void decrement(View view) {
-        if (quantity > MINIMUM_QUANTITY) {
-            quantity = quantity - ONE;
-            displayQuantity(quantity);
-        }
+        getTextViewQuantity().setText(String.valueOf(mainService.decrement()));
     }
 
     public void submitOrder(View view) {
-        displayMessage(createOrderSummary(hasWhippedCream()));
+        getTextViewOrderSummary().setText(mainService.createOrderSummary(getCheckBoxWhippedCream().isChecked()));
     }
 
     public void resetOrder(View view) {
-        quantity = MINIMUM_QUANTITY;
-        displayQuantity(MINIMUM_QUANTITY);
-        displayMessage(EMPTY);
-        unCheckWhippedCream();
+        mainService.resetOrder();
+        getCheckBoxWhippedCream().setChecked(false);
+        getTextViewQuantity().setText(String.valueOf(ZERO));
+        getTextViewOrderSummary().setText(EMPTY);
     }
 
-    private boolean hasWhippedCream() {
-        CheckBox checkboxWhippedCream = (CheckBox) findViewById(R.id.check_box_whipped_cream);
-        return checkboxWhippedCream.isChecked();
+    private CheckBox getCheckBoxWhippedCream() {
+        return (CheckBox) findViewById(R.id.check_box_whipped_cream);
     }
 
-    private String createOrderSummary(boolean hasWhippedCream) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Name: Rafael Alberto")
-                .append("\nQuantity: " + quantity)
-                .append("\nTotal: $ " + calculatePrice(quantity))
-                .append("\nAdd Whipped Cream? " + (hasWhippedCream == true ? "Yes" : "No"))
-                .append("\nThank you!");
-        return stringBuilder.toString();
+    private TextView getTextViewQuantity() {
+        return (TextView) findViewById(R.id.text_view_quantity);
     }
 
-    private int calculatePrice(int quantity) {
-        return quantity * UNITY_PRICE;
-    }
-
-    private void displayQuantity(int number) {
-        TextView textViewQuantity = (TextView) findViewById(R.id.text_view_quantity);
-        textViewQuantity.setText(String.valueOf(number));
-    }
-
-    private void displayMessage(String message) {
-        TextView textViewPrice = (TextView) findViewById(R.id.text_view_order_summary);
-        textViewPrice.setText(message);
-    }
-
-    private void unCheckWhippedCream() {
-        CheckBox checkboxWhippedCream = (CheckBox) findViewById(R.id.check_box_whipped_cream);
-        checkboxWhippedCream.setChecked(false);
+    private TextView getTextViewOrderSummary() {
+        return (TextView) findViewById(R.id.text_view_order_summary);
     }
 }
