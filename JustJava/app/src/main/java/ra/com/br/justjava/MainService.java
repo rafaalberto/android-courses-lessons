@@ -23,12 +23,13 @@ public class MainService {
         quantity = MINIMUM_QUANTITY;
     }
 
-    public String createOrderSummary(boolean hasWhippedCream) {
+    public String createOrderSummary(String name, boolean hasWhippedCream, boolean hasChocolate) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Name: Rafael Alberto")
+        stringBuilder.append("Name: " + name)
                 .append("\nQuantity: " + quantity)
                 .append("\nTotal: $ " + calculatePrice(quantity))
                 .append("\nAdd Whipped Cream? " + (hasWhippedCream == true ? "Yes" : "No"))
+                .append("\nAdd Chocolate? " + (hasChocolate == true ? "Yes" : "No"))
                 .append("\nThank you!");
         return stringBuilder.toString();
     }

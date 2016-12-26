@@ -1,9 +1,15 @@
 package ra.com.br.justjava;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -13,10 +19,13 @@ public class MainActivity extends AppCompatActivity {
 
     private MainService mainService;
 
+    private EditText editTextName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadEditTextName();
         mainService = new MainService();
     }
 
@@ -29,18 +38,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void submitOrder(View view) {
-        getTextViewOrderSummary().setText(mainService.createOrderSummary(getCheckBoxWhippedCream().isChecked()));
+        getTextViewOrderSummary().setText(
+                mainService.createOrderSummary(editTextName.getText().toString(),
+                        getCheckBoxWhippedCream().isChecked(),
+                        getCheckboxChocolate().isChecked()));
     }
 
     public void resetOrder(View view) {
         mainService.resetOrder();
+        editTextName.setText(EMPTY);
         getCheckBoxWhippedCream().setChecked(false);
+        getCheckboxChocolate().setChecked(false);
         getTextViewQuantity().setText(String.valueOf(ZERO));
         getTextViewOrderSummary().setText(EMPTY);
     }
 
+    private void loadEditTextName() {
+        editTextName = (EditText) findViewById(R.id.edit_text_name);
+        editTextName.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    editTextName.setFocusable(false);
+                    editTextName.setFocusableInTouchMode(false);
+                    InputMethodManager inputMethodManager =
+                            (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, Integer.valueOf(ZERO));
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        editTextName.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                editTextName.setFocusable(true);
+                editTextName.setFocusableInTouchMode(true);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                return false;
+            }
+        });
+    }
+
     private CheckBox getCheckBoxWhippedCream() {
         return (CheckBox) findViewById(R.id.check_box_whipped_cream);
+    }
+
+    private CheckBox getCheckboxChocolate() {
+        return (CheckBox) findViewById(R.id.check_box_chocolate);
     }
 
     private TextView getTextViewQuantity() {
