@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String PREFIX_EMAIL = "mailto:";
     private static final String DEFAULT_EMAIL_ADDRESS = "rafael.alberto1703@gmail.com";
-    private static final String DEFAULT_EMAIL_SUBJECT = "Just Java Order for";
 
     private MainService mainService;
 
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadEditTextName();
-        mainService = new MainService();
+        mainService = new MainService(getResources());
     }
 
     public void increment(View view) {
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse(PREFIX_EMAIL.concat(DEFAULT_EMAIL_ADDRESS)));
         intent.putExtra(Intent.EXTRA_EMAIL, DEFAULT_EMAIL_ADDRESS);
-        intent.putExtra(Intent.EXTRA_SUBJECT, DEFAULT_EMAIL_SUBJECT.concat(" ").concat(name));
+        intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.subject_email).concat(" ").concat(name));
         intent.putExtra(Intent.EXTRA_TEXT, message);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);

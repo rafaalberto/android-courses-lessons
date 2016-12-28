@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Just Java</string>
+    <string name="name">Nome</string>
+    <string name="toppings">Cobertura</string>
+    <string name="whipped_cream">Chantilly</string>
+    <string name="chocolate">Chocolate</string>
+    <string name="quantity">Quantidade</string>
+    <string name="order">Pedir</string>
+    <string name="reset">Limpar</string>
+    <string name="subject_email">Just Java Pedido para</string>
+    <string name="validation_name">Você deve digitar o seu nome</string>
+    <string name="add_whipped_cream">Adicionar Chantilly?</string>
+    <string name="add_chocolate">Adicionar Chocolate?</string>
+    <string name="thank_you">Obrigado!</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+</resources>
