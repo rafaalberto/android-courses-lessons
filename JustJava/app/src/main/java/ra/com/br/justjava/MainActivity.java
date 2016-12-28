@@ -40,14 +40,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void submitOrder(View view) {
-        String name = editTextName.getText().toString();
-        if (!name.equals(EMPTY)) {
+        try {
             getTextViewOrderSummary().setText(
-                    mainService.createOrderSummary(name,
+                    mainService.createOrderSummary(editTextName.getText().toString(),
                             getCheckBoxWhippedCream().isChecked(),
                             getCheckboxChocolate().isChecked()));
-        } else {
-            Toast.makeText(this, "You must type your name", Toast.LENGTH_SHORT).show();
+        } catch (SystemException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
