@@ -11,10 +11,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String ZERO = "0";
+    private static final String ONE = "1";
     private static final String EMPTY = "";
 
     private MainService mainService;
@@ -38,10 +40,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void submitOrder(View view) {
-        getTextViewOrderSummary().setText(
-                mainService.createOrderSummary(editTextName.getText().toString(),
-                        getCheckBoxWhippedCream().isChecked(),
-                        getCheckboxChocolate().isChecked()));
+        String name = editTextName.getText().toString();
+        if (!name.equals(EMPTY)) {
+            getTextViewOrderSummary().setText(
+                    mainService.createOrderSummary(name,
+                            getCheckBoxWhippedCream().isChecked(),
+                            getCheckboxChocolate().isChecked()));
+        } else {
+            Toast.makeText(this, "You must type your name", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void resetOrder(View view) {
@@ -49,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         editTextName.setText(EMPTY);
         getCheckBoxWhippedCream().setChecked(false);
         getCheckboxChocolate().setChecked(false);
-        getTextViewQuantity().setText(String.valueOf(ZERO));
+        getTextViewQuantity().setText(String.valueOf(ONE));
         getTextViewOrderSummary().setText(EMPTY);
     }
 

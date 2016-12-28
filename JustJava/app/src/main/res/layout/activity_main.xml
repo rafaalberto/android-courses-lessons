@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:hint="Name"
+            android:maxLength="40"
             android:inputType="textCapWords" />
 
         <TextView
@@ -70,7 +71,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="0"
+                android:text="1"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />

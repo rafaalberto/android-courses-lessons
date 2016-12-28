@@ -2,25 +2,24 @@ package ra.com.br.justjava;
 
 public class MainService {
 
-    private static final int MINIMUM_QUANTITY = 0;
     private static final int UNITY_PRICE = 5;
     private static final int ONE = 1;
 
-    int quantity = MINIMUM_QUANTITY;
+    int quantity = ONE;
 
     public int increment() {
         return quantity = quantity + ONE;
     }
 
     public int decrement() {
-        if (quantity > MINIMUM_QUANTITY) {
+        if (quantity > ONE) {
             return quantity = quantity - ONE;
         }
         return quantity;
     }
 
     public void resetOrder() {
-        quantity = MINIMUM_QUANTITY;
+        quantity = ONE;
     }
 
     public String createOrderSummary(String name, boolean hasWhippedCream, boolean hasChocolate) {
