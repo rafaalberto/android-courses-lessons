@@ -1,6 +1,8 @@
 package ra.com.br.justjava;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -13,11 +15,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String ZERO = "0";
     private static final String ONE = "1";
     private static final String EMPTY = "";
+
+    private static final String PREFIX_EMAIL = "mailto:";
+    private static final String DEFAULT_EMAIL_ADDRESS = "rafael.alberto1703@gmail.com";
+    private static final String DEFAULT_EMAIL_SUBJECT = "Just Java Order for";
 
     private MainService mainService;
 
@@ -41,10 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void submitOrder(View view) {
         try {
-            getTextViewOrderSummary().setText(
-                    mainService.createOrderSummary(editTextName.getText().toString(),
-                            getCheckBoxWhippedCream().isChecked(),
-                            getCheckboxChocolate().isChecked()));
+            String name = StringUtils.trimToEmpty(editTextName.getText().toString());
+            String message = mainService.createOrderSummary(name, getCheckBoxWhippedCream().isChecked(), getCheckboxChocolate().isChecked());
+            composeEmail(name, message);
         } catch (SystemException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -56,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         getCheckBoxWhippedCream().setChecked(false);
         getCheckboxChocolate().setChecked(false);
         getTextViewQuantity().setText(String.valueOf(ONE));
-        getTextViewOrderSummary().setText(EMPTY);
     }
 
     private void loadEditTextName() {
@@ -99,7 +105,14 @@ public class MainActivity extends AppCompatActivity {
         return (TextView) findViewById(R.id.text_view_quantity);
     }
 
-    private TextView getTextViewOrderSummary() {
-        return (TextView) findViewById(R.id.text_view_order_summary);
+    private void composeEmail(String name, String message) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse(PREFIX_EMAIL.concat(DEFAULT_EMAIL_ADDRESS)));
+        intent.putExtra(Intent.EXTRA_EMAIL, DEFAULT_EMAIL_ADDRESS);
+        intent.putExtra(Intent.EXTRA_SUBJECT, DEFAULT_EMAIL_SUBJECT.concat(" ").concat(name));
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }

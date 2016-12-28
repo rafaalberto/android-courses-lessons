@@ -84,23 +84,7 @@
                 android:textAppearance="?android:textAppearanceLarge" />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Order Summary"
-            android:textAllCaps="true"
-            android:textAppearance="?android:textAppearanceSmall" />
-
-        <TextView
-            android:id="@+id/text_view_order_summary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="16sp" />
-
+        Just Java Order for
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

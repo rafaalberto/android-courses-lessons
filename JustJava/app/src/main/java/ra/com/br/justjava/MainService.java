@@ -1,7 +1,5 @@
 package ra.com.br.justjava;
 
-import org.apache.commons.lang3.StringUtils;
-
 public class MainService {
 
     private static final int UNITY_PRICE = 5;
@@ -34,7 +32,6 @@ public class MainService {
     }
 
     public String createOrderSummary(String name, boolean hasWhippedCream, boolean hasChocolate) {
-        name = StringUtils.trimToEmpty(name);
         if (name.equals(EMPTY)) {
             throw new SystemException("You must type your name");
         }
