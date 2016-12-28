@@ -6,10 +6,10 @@
     tools:context="ra.com.br.justjava.MainActivity">
 
     <LinearLayout
+        style="@style/LayoutMargin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/edit_text_name"

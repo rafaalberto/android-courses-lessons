@@ -5,4 +5,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
+    
+    <style name="LayoutMargin">
+        <item name="android:padding">16dp</item>
+    </style>
+    
 </resources>
