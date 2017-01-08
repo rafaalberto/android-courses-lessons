@@ -4,10 +4,17 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="ra.com.br.list.MainActivity">
 
     <TextView
-        android:id="@+id/text_view_america"
+        android:id="@+id/text_view_continent"
         style="@style/StyleContinents"
-        android:text="@string/america" />
+        android:text="@string/continents" />
+
+    <TextView
+        android:id="@+id/text_view_country"
+        style="@style/StyleCountries"
+        android:text="@string/countries" />
+
 </LinearLayout>

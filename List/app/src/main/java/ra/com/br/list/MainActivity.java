@@ -16,11 +16,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadViews(){
-        TextView textViewAmerica = (TextView) findViewById(R.id.text_view_america);
-        textViewAmerica.setOnClickListener(new View.OnClickListener() {
+        TextView textViewContinent = (TextView) findViewById(R.id.text_view_continent);
+        textViewContinent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AmericaActivity.class));
+                startActivity(new Intent(MainActivity.this, ContinentActivity.class));
+            }
+        });
+
+        TextView textViewCountry = (TextView) findViewById(R.id.text_view_country);
+        textViewCountry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CountryActivity.class));
             }
         });
     }
