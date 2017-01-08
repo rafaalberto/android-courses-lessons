@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ra.com.br.miwok.MainActivity">
+
+    <TextView
+        android:id="@+id/text_view_numbers"
+        style="@style/CategoryStyle"
+        android:background="@color/category_numbers"
+        android:text="@string/numbers" />
+
+    <TextView
+        android:id="@+id/text_view_family"
+        style="@style/CategoryStyle"
+        android:background="@color/category_family"
+        android:text="@string/family_members" />
+
+    <TextView
+        android:id="@+id/text_view_colors"
+        style="@style/CategoryStyle"
+        android:background="@color/category_colors"
+        android:text="@string/colors" />
+
+    <TextView
+        android:id="@+id/text_view_phrases"
+        style="@style/CategoryStyle"
+        android:background="@color/category_phrases"
+        android:text="@string/phrases" />
+
+</LinearLayout>
