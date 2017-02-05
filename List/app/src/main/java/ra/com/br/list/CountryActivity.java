@@ -2,7 +2,10 @@ package ra.com.br.list;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,5 +41,13 @@ public class CountryActivity extends AppCompatActivity {
 
         ListView listViewCountries = (ListView) findViewById(R.id.list_view_country);
         listViewCountries.setAdapter(new CountryAdapter(this, arrayListCountries));
+
+        listViewCountries.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Country country = (Country) parent.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), "Capital:  " + country.getCapital(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
