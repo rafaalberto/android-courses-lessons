@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadViews(){
-        mediaPlayer= MediaPlayer.create(this, R.raw.supermario);
+        mediaPlayer = MediaPlayer.create(this, R.raw.supermario);
 
         Button buttonPlay = (Button) findViewById(R.id.button_play);
         buttonPlay.setOnClickListener(new View.OnClickListener() {
