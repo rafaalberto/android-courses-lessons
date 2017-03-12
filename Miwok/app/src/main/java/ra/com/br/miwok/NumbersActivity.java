@@ -53,9 +53,7 @@ public class NumbersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view_word);
-
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
         loadList();
     }
 
