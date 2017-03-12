@@ -6,8 +6,9 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/text_view_day_of_week"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/tuesday" />
+        tools:text="@string/monday" />
 
 </LinearLayout>
