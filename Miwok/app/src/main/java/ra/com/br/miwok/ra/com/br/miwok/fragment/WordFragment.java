@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import ra.com.br.miwok.R;
@@ -24,6 +25,8 @@ public class WordFragment extends Fragment {
     private MediaPlayer mediaPlayer;
 
     private AudioManager audioManager;
+
+    private ImageView imageViewMedia;
 
     private AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
@@ -45,7 +48,7 @@ public class WordFragment extends Fragment {
             } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
                 // The AUDIOFOCUS_LOSS case means we've lost audio focus and
                 // Stop playback and clean up resources
-                MediaPlayerUtils.releaseMediaPlayer(mediaPlayer, audioManager, onAudioFocusChangeListener);
+                MediaPlayerUtils.releaseMediaPlayer(mediaPlayer, audioManager, onAudioFocusChangeListener, imageViewMedia);
             }
         }
     };
@@ -53,7 +56,7 @@ public class WordFragment extends Fragment {
     private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
-            MediaPlayerUtils.releaseMediaPlayer(mediaPlayer, audioManager, onAudioFocusChangeListener);
+            MediaPlayerUtils.releaseMediaPlayer(mediaPlayer, audioManager, onAudioFocusChangeListener, imageViewMedia);
         }
     };
 
@@ -85,13 +88,17 @@ public class WordFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Word word = (Word) wordAdapter.getItem(position);
-                MediaPlayerUtils.releaseMediaPlayer(mediaPlayer, audioManager, onAudioFocusChangeListener);
+                MediaPlayerUtils.releaseMediaPlayer(mediaPlayer, audioManager, onAudioFocusChangeListener, imageViewMedia);
 
                 int result = audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
 
                 if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     mediaPlayer = MediaPlayer.create(getActivity(), word.getAudioResourceId());
                     mediaPlayer.start();
+
+                    imageViewMedia = (ImageView) view.findViewById(R.id.image_view_media);
+                    imageViewMedia.setImageResource(R.drawable.ic_pause);
+
                     mediaPlayer.setOnCompletionListener(completionListener);
                 }
             }
@@ -102,6 +109,6 @@ public class WordFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        MediaPlayerUtils.releaseMediaPlayer(mediaPlayer, audioManager, onAudioFocusChangeListener);
+        MediaPlayerUtils.releaseMediaPlayer(mediaPlayer, audioManager, onAudioFocusChangeListener, imageViewMedia);
     }
 }
