@@ -1,4 +1,4 @@
-package ra.com.br.miwok;
+package ra.com.br.miwok.ra.com.br.miwok.model;
 
 public class Word {
 
@@ -9,13 +9,13 @@ public class Word {
     private int imageResourceId = NO_IMAGE_PROVIDED;
     private int audioResourceId;
 
-    public Word(String defaultTranslation, String miwokTranslation, int audioResourceId){
+    public Word(String defaultTranslation, String miwokTranslation, int audioResourceId) {
         this.defaultTranslation = defaultTranslation;
         this.miwokTranslation = miwokTranslation;
         this.audioResourceId = audioResourceId;
     }
 
-    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId, int audioResourceId){
+    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId, int audioResourceId) {
         this.defaultTranslation = defaultTranslation;
         this.miwokTranslation = miwokTranslation;
         this.imageResourceId = imageResourceId;
@@ -34,7 +34,7 @@ public class Word {
         return imageResourceId;
     }
 
-    public boolean hasImage(){
+    public boolean hasImage() {
         return imageResourceId != NO_IMAGE_PROVIDED;
     }
 

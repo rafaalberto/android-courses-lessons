@@ -1,9 +1,9 @@
-package ra.com.br.miwok;
+package ra.com.br.miwok.ra.com.br.miwok.utils;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 
-public class MediaPlayerUtils {
+public abstract class MediaPlayerUtils {
 
     public static void releaseMediaPlayer(MediaPlayer mediaPlayer, AudioManager audioManager,
                                           AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener) {
