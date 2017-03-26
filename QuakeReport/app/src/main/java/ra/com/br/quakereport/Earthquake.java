@@ -6,9 +6,9 @@ public class Earthquake {
     private String location;
     private String date;
 
-    public Earthquake(String localization, String level, String date) {
-        this.location = localization;
-        this.magnitude = level;
+    public Earthquake(String magnitude, String location, String date) {
+        this.magnitude = magnitude;
+        this.location = location;
         this.date = date;
     }
 
