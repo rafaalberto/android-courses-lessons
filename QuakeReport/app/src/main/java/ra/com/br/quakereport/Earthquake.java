@@ -2,21 +2,21 @@ package ra.com.br.quakereport;
 
 public class Earthquake {
 
-    private String magnitude;
+    private double magnitude;
     private String location;
-    private String date;
+    private long timeInMilliseconds;
 
-    public Earthquake(String magnitude, String location, String date) {
+    public Earthquake(double magnitude, String location, long timeInMilliseconds) {
         this.magnitude = magnitude;
         this.location = location;
-        this.date = date;
+        this.timeInMilliseconds = timeInMilliseconds;
     }
 
-    public String getMagnitude() {
+    public double getMagnitude() {
         return magnitude;
     }
 
-    public void setMagnitude(String magnitude) {
+    public void setMagnitude(double magnitude) {
         this.magnitude = magnitude;
     }
 
@@ -28,11 +28,11 @@ public class Earthquake {
         this.location = location;
     }
 
-    public String getDate() {
-        return date;
+    public long getTimeInMilliseconds() {
+        return timeInMilliseconds;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setTimeInMilliseconds(long timeInMilliseconds) {
+        this.timeInMilliseconds = timeInMilliseconds;
     }
 }

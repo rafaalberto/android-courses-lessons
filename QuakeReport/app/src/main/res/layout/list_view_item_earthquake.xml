@@ -10,21 +10,49 @@
         android:id="@+id/text_view_magnitude"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="Magnitude" />
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.5"
+        tools:text="8.9" />
 
-    <TextView
-        android:id="@+id/text_view_location"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        tools:text="Localization" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_view_date"
+        <TextView
+            android:id="@+id/text_view_offset_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="30km S of" />
+
+        <TextView
+            android:id="@+id/text_view_primary_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="San Francisco, CA" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        tools:text="Date" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_view_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            tools:text="Mar 6, 2020" />
+
+        <TextView
+            android:id="@+id/text_view_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            tools:text="3:00 PM" />
+    </LinearLayout>
 
 </LinearLayout>
