@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-public abstract class Connection {
+public abstract class EarthquakeConnection {
 
     public static final String LOG_TAG = EarthquakeUtils.class.getSimpleName();
 

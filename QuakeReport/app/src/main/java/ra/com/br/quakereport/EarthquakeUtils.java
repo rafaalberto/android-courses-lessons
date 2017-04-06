@@ -24,7 +24,7 @@ public class EarthquakeUtils {
     public static List<Earthquake> fetchEarthquakes(String requestUrl) {
         List<Earthquake> earthquakes = new ArrayList<Earthquake>();
         try {
-            JSONObject jsonResponse = new JSONObject(Connection.makeHttpRequest(requestUrl));
+            JSONObject jsonResponse = new JSONObject(EarthquakeConnection.makeHttpRequest(requestUrl));
             JSONArray features = jsonResponse.getJSONArray(FEATURES);
             if (features.length() > ZERO) {
                 for (int index = ZERO; index < features.length(); index++) {
