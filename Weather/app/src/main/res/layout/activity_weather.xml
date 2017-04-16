@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/text_view_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Location" />
+
+        <TextView
+            android:id="@+id/text_view_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Description" />
+
+        <TextView
+            android:id="@+id/text_view_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Temperature" />
+
+        <TextView
+            android:id="@+id/text_view_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Humidity" />
+
+        <TextView
+            android:id="@+id/text_view_last_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Last Update" />
+
+        <TextView
+            android:id="@+id/text_view_sunrise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Sunrise" />
+
+        <TextView
+            android:id="@+id/text_view_sunset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Sunset" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_view_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textAppearance="?android:textAppearanceMedium"
+        tools:text="@string/no_internet_connection"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_loading"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>
