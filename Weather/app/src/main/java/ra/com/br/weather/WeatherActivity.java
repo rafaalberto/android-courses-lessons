@@ -69,6 +69,11 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
         textViewLastUpdate.setText("Last update " + Utils.getFormattedDateTime(currentWeather.getLastUpdate(), Utils.FORMAT_DATE_TIME));
 
         ImageView imageView = (ImageView) findViewById(R.id.image_view_weather);
-        imageView.setImageResource(Utils.getIconId(currentWeather.getIcon()));
+
+        if(currentWeather.getIcon() != null){
+            imageView.setImageResource(Utils.getIconId(currentWeather.getIcon()));
+        }else{
+            imageView.setVisibility(View.GONE);
+        }
     }
 }
