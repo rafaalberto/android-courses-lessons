@@ -20,11 +20,9 @@ public abstract class WeatherJson {
 
             currentWeather.setLocation(root.getString("name").concat(", ").concat(sys.getString("country")));
             currentWeather.setDescription(weather.getJSONObject(Utils.ZERO).getString("main"));
+            currentWeather.setIcon(weather.getJSONObject(Utils.ZERO).getString("icon"));
             currentWeather.setTemperature(main.getInt("temp"));
-            currentWeather.setHumidity(main.getInt("humidity"));
             currentWeather.setLastUpdate(root.getLong("dt"));
-            currentWeather.setSunrise(sys.getLong("sunrise"));
-            currentWeather.setSunset(sys.getLong("sunset"));
         } catch (JSONException e) {
             Log.e(Utils.LOG_TAG, "Error parsing JSON: " + e.getMessage());
         } catch (IOException e) {

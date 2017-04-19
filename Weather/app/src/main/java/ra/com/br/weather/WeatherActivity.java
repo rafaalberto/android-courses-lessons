@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class WeatherActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Weather> {
@@ -48,6 +49,9 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
         } else {
             TextView textViewEmpty = (TextView) findViewById(R.id.text_view_empty);
             textViewEmpty.setText(R.string.no_internet_connection);
+
+            View progressBarLoading = findViewById(R.id.progress_bar_loading);
+            progressBarLoading.setVisibility(View.GONE);
         }
     }
 
@@ -59,18 +63,12 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
         textViewDescription.setText(currentWeather.getDescription());
 
         TextView textViewTemperature = (TextView) findViewById(R.id.text_view_temperature);
-        textViewTemperature.setText(String.valueOf(currentWeather.getTemperature()));
-
-        TextView textViewHumidity = (TextView) findViewById(R.id.text_view_humidity);
-        textViewHumidity.setText(String.valueOf(currentWeather.getHumidity()));
+        textViewTemperature.setText(String.valueOf(currentWeather.getTemperature()).concat("º C"));
 
         TextView textViewLastUpdate = (TextView) findViewById(R.id.text_view_last_update);
-        textViewLastUpdate.setText(Utils.getFormattedDateTime(currentWeather.getLastUpdate(), Utils.FORMAT_DATE_TIME));
+        textViewLastUpdate.setText("Last update " + Utils.getFormattedDateTime(currentWeather.getLastUpdate(), Utils.FORMAT_DATE_TIME));
 
-        TextView textViewSunrise = (TextView) findViewById(R.id.text_view_sunrise);
-        textViewSunrise.setText(Utils.getFormattedDateTime(currentWeather.getSunrise(), Utils.FORMAT_TIME));
-
-        TextView textViewSunset = (TextView) findViewById(R.id.text_view_sunset);
-        textViewSunset.setText(Utils.getFormattedDateTime(currentWeather.getSunset(), Utils.FORMAT_TIME));
+        ImageView imageView = (ImageView) findViewById(R.id.image_view_weather);
+        imageView.setImageResource(Utils.getIconId(currentWeather.getIcon()));
     }
 }
