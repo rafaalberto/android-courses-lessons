@@ -4,10 +4,12 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -23,9 +25,8 @@ import java.util.List;
 
 public class EarthquakeActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Earthquake>> {
 
-    public static final int EARTHQUAKE_LOADER_ID = 1;
+    private static final int EARTHQUAKE_LOADER_ID = 1;
     private static final int ZERO = 0;
-    private static final String URL_USGS_EARTHQUAKE = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&limit=10";
 
     private EarthquakeAdapter earthquakeAdapter;
 
@@ -47,7 +48,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.menu_item_action_settings){
+        if (item.getItemId() == R.id.menu_item_action_settings) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
             return true;
@@ -57,7 +58,12 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int id, Bundle args) {
-        return new EarthquakeLoader(this, URL_USGS_EARTHQUAKE);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String minimumMagnitude = sharedPreferences.getString(getString(R.string.settings_min_magnitude_key),
+                getString(R.string.settings_min_magnitude_value));
+        String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_value));
+        return new EarthquakeLoader(this, EarthquakeUtils.createURL(minimumMagnitude, orderBy));
     }
 
     @Override

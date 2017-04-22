@@ -4,4 +4,4 @@
     android:name="ra.com.br.quakereport.SettingsActivity$EarthquakePreferenceFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActivity"></fragment>
+    tools:context="ra.com.br.quakereport.SettingsActivity" />

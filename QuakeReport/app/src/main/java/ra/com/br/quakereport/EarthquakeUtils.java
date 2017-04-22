@@ -1,5 +1,6 @@
 package ra.com.br.quakereport;
 
+import android.net.Uri;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -13,13 +14,31 @@ import java.util.List;
 public class EarthquakeUtils {
 
     public static final String LOG_TAG = EarthquakeUtils.class.getSimpleName();
-    private static final int ZERO = 0;
+    public static final int ZERO = 0;
+
+    private static final String URL_USGS_EARTHQUAKE = "https://earthquake.usgs.gov/fdsnws/event/1/query";
+
+    private static final String FORMAT = "format";
+    private static final String LIMIT = "limit";
+    private static final String MINIMUM_MAGNITUDE = "minmag";
+    private static final String ORDER_BY = "orderby";
+
     private static final String FEATURES = "features";
     private static final String PROPERTIES = "properties";
     private static final String MAGNITUDE = "mag";
     private static final String PLACE = "place";
     private static final String TIME = "time";
     private static final String URL = "url";
+
+    public static String createURL(String... parameters) {
+        Uri baseUri = Uri.parse(URL_USGS_EARTHQUAKE);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter(FORMAT, "geojson");
+        uriBuilder.appendQueryParameter(LIMIT, "10");
+        uriBuilder.appendQueryParameter(MINIMUM_MAGNITUDE, parameters[0]);
+        uriBuilder.appendQueryParameter(ORDER_BY, parameters[1]);
+        return uriBuilder.toString();
+    }
 
     public static List<Earthquake> fetchEarthquakes(String requestUrl) {
         List<Earthquake> earthquakes = new ArrayList<Earthquake>();
