@@ -73,6 +73,9 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
         TextView textViewTemperature = (TextView) findViewById(R.id.text_view_temperature);
         textViewTemperature.setText(String.valueOf(currentWeather.getTemperature()));
 
+        TextView textViewUnit = (TextView) findViewById(R.id.text_view_unit);
+        textViewUnit.setText(R.string.unity_celsius);
+
         TextView textViewHumidity = (TextView) findViewById(R.id.text_view_humidity);
         textViewHumidity.setText(getString(R.string.humidity)
                 .concat(" ").concat(String.valueOf(currentWeather.getHumidity())
