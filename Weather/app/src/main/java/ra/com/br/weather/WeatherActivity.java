@@ -81,6 +81,7 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
         ImageView imageView = (ImageView) findViewById(R.id.image_view_weather);
 
         if (currentWeather.getIcon() != null) {
+            imageView.setVisibility(View.VISIBLE);
             imageView.setImageResource(Utils.getIconId(currentWeather.getIcon()));
         } else {
             imageView.setVisibility(View.GONE);
