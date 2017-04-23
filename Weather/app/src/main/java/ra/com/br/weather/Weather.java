@@ -5,6 +5,7 @@ public class Weather {
     private String location;
     private String description;
     private int temperature;
+    private int humidity;
     private long lastUpdate;
     private String icon;
 
@@ -30,6 +31,14 @@ public class Weather {
 
     public void setTemperature(int temperature) {
         this.temperature = temperature;
+    }
+
+    public int getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
     }
 
     public long getLastUpdate() {

@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Weather</string>
     <string name="no_internet_connection">No internet connection</string>
+
+    <string name="unity_celsius">ºC</string>
+    <string name="unity_fahrenheit">ºF</string>
+    <string name="humidity">Humidity:</string>
+    <string name="percent" translatable="false">%</string>
+
 </resources>

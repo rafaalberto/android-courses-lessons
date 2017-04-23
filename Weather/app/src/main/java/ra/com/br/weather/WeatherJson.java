@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public abstract class WeatherJson {
 
-    public static Weather fetchCurrentWeather(String urlWeatherApi){
+    public static Weather fetchCurrentWeather(String urlWeatherApi) {
         Weather currentWeather = new Weather();
         try {
             JSONObject root = new JSONObject(WeatherConnection.makeHttpRequest(urlWeatherApi));
@@ -19,9 +19,10 @@ public abstract class WeatherJson {
             JSONObject sys = root.getJSONObject("sys");
 
             currentWeather.setLocation(root.getString("name").concat(", ").concat(sys.getString("country")));
-            currentWeather.setDescription(weather.getJSONObject(Utils.ZERO).getString("main"));
+            currentWeather.setDescription(weather.getJSONObject(Utils.ZERO).getString("description"));
             currentWeather.setIcon(weather.getJSONObject(Utils.ZERO).getString("icon"));
             currentWeather.setTemperature(main.getInt("temp"));
+            currentWeather.setHumidity(main.getInt("humidity"));
             currentWeather.setLastUpdate(root.getLong("dt"));
         } catch (JSONException e) {
             Log.e(Utils.LOG_TAG, "Error parsing JSON: " + e.getMessage());

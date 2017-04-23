@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 public class WeatherActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Weather> {
 
     public static final int LOADER_ID = 1;
@@ -50,6 +52,9 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
             TextView textViewEmpty = (TextView) findViewById(R.id.text_view_empty);
             textViewEmpty.setText(R.string.no_internet_connection);
 
+            ImageView imageView = (ImageView) findViewById(R.id.image_view_weather);
+            imageView.setVisibility(View.GONE);
+
             View progressBarLoading = findViewById(R.id.progress_bar_loading);
             progressBarLoading.setVisibility(View.GONE);
         }
@@ -59,20 +64,25 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
         TextView textViewLocation = (TextView) findViewById(R.id.text_view_location);
         textViewLocation.setText(currentWeather.getLocation());
 
+        TextView textViewLastUpdate = (TextView) findViewById(R.id.text_view_last_update);
+        textViewLastUpdate.setText(Utils.getFormattedDateTime(currentWeather.getLastUpdate(), Utils.FORMAT_DATE_TIME));
+
         TextView textViewDescription = (TextView) findViewById(R.id.text_view_description);
-        textViewDescription.setText(currentWeather.getDescription());
+        textViewDescription.setText(WordUtils.capitalize(currentWeather.getDescription()));
 
         TextView textViewTemperature = (TextView) findViewById(R.id.text_view_temperature);
-        textViewTemperature.setText(String.valueOf(currentWeather.getTemperature()).concat("º C"));
+        textViewTemperature.setText(String.valueOf(currentWeather.getTemperature()));
 
-        TextView textViewLastUpdate = (TextView) findViewById(R.id.text_view_last_update);
-        textViewLastUpdate.setText("Last update " + Utils.getFormattedDateTime(currentWeather.getLastUpdate(), Utils.FORMAT_DATE_TIME));
+        TextView textViewHumidity = (TextView) findViewById(R.id.text_view_humidity);
+        textViewHumidity.setText(getString(R.string.humidity)
+                .concat(" ").concat(String.valueOf(currentWeather.getHumidity())
+                        .concat(getString(R.string.percent))));
 
         ImageView imageView = (ImageView) findViewById(R.id.image_view_weather);
 
-        if(currentWeather.getIcon() != null){
+        if (currentWeather.getIcon() != null) {
             imageView.setImageResource(Utils.getIconId(currentWeather.getIcon()));
-        }else{
+        } else {
             imageView.setVisibility(View.GONE);
         }
     }
