@@ -7,4 +7,6 @@
     <string name="humidity">Humidity:</string>
     <string name="percent" translatable="false">%</string>
 
+    <string name="settings">Settings</string>
+
 </resources>
