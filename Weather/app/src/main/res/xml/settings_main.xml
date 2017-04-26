@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings">
+
+    <EditTextPreference
+        android:defaultValue="@string/settings_location_default_value"
+        android:inputType="text"
+        android:key="@string/settings_location_key"
+        android:selectAllOnFocus="true"
+        android:title="@string/settings_location_label" />
+
+</PreferenceScreen>
