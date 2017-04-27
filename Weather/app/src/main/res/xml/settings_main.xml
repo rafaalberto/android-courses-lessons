@@ -9,4 +9,11 @@
         android:selectAllOnFocus="true"
         android:title="@string/settings_location_label" />
 
+    <ListPreference
+        android:defaultValue="@string/settings_unit_default_value"
+        android:entries="@array/settings_unit_labels"
+        android:entryValues="@array/settings_unit_values"
+        android:key="@string/settings_unit_key"
+        android:title="@string/settings_unit_label" />
+
 </PreferenceScreen>

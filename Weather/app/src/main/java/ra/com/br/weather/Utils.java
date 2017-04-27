@@ -1,5 +1,7 @@
 package ra.com.br.weather;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 
 import java.text.SimpleDateFormat;
@@ -15,12 +17,12 @@ public abstract class Utils {
 
     public static final String URL_PREFIX_WEATHER_API = "http://api.openweathermap.org/data/2.5/weather";
 
-    public static String createURL(String... parameters){
+    public static String createURL(Context context, String... parameters){
         Uri uri = Uri.parse(URL_PREFIX_WEATHER_API);
         Uri.Builder uribuilder = uri.buildUpon();
-        uribuilder.appendQueryParameter("q", parameters[ZERO]);
+        uribuilder.appendQueryParameter("q", parameters[0]);
         uribuilder.appendQueryParameter("lang", "en");
-        uribuilder.appendQueryParameter("units", "metric");
+        uribuilder.appendQueryParameter("units", parameters[1].equals(context.getResources().getString((R.string.settings_unit_celsius_value))) ? "metric" : "imperial");
         uribuilder.appendQueryParameter("appid", "87f46dab64701a6795eb56aa61196334");
         return uribuilder.toString();
     }

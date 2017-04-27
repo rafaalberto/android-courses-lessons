@@ -49,7 +49,8 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
     public Loader<Weather> onCreateLoader(int id, Bundle args) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String location = sharedPreferences.getString(getString(R.string.settings_location_key), getString(R.string.settings_location_default_value));
-        return new WeatherLoader(this, Utils.createURL(location));
+        String unit = sharedPreferences.getString(getString(R.string.settings_unit_key), getString(R.string.settings_unit_default_value));
+        return new WeatherLoader(this, Utils.createURL(this, location, unit));
     }
 
     @Override
@@ -97,7 +98,11 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
         textViewTemperature.setText(String.valueOf(currentWeather.getTemperature()));
 
         TextView textViewUnit = (TextView) findViewById(R.id.text_view_unit);
-        textViewUnit.setText(R.string.unity_celsius);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String unit = sharedPreferences.getString(getString(R.string.settings_unit_key), getString(R.string.settings_unit_default_value));
+
+        textViewUnit.setText(unit.equals(getString(R.string.settings_unit_celsius_value)) ? R.string.unity_celsius : R.string.unity_fahrenheit);
 
         TextView textViewHumidity = (TextView) findViewById(R.id.text_view_humidity);
         textViewHumidity.setText(getString(R.string.humidity)
