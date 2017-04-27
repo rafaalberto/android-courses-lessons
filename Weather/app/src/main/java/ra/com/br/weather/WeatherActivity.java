@@ -10,11 +10,13 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -26,6 +28,11 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         checkConnectionAndGetLoader();
     }
 
@@ -72,6 +79,9 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
         if (networkInfo != null && networkInfo.isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(LOADER_ID, null, this);
+            if(!getLoaderManager().getLoader(LOADER_ID).isReset()) {
+                getLoaderManager().restartLoader(LOADER_ID, null, this);
+            }
         } else {
             TextView textViewEmpty = (TextView) findViewById(R.id.text_view_empty);
             textViewEmpty.setText(R.string.no_internet_connection);
