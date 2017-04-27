@@ -4,9 +4,11 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +47,9 @@ public class WeatherActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public Loader<Weather> onCreateLoader(int id, Bundle args) {
-        return new WeatherLoader(this, Utils.URL_WEATHER_API);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String location = sharedPreferences.getString(getString(R.string.settings_location_key), getString(R.string.settings_location_default_value));
+        return new WeatherLoader(this, Utils.createURL(location));
     }
 
     @Override

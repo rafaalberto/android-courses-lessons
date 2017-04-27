@@ -1,5 +1,7 @@
 package ra.com.br.weather;
 
+import android.net.Uri;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,7 +13,17 @@ public abstract class Utils {
     public static final String FORMAT_DATE_TIME = "EEE, MMM dd HH:mm";
     public static final long MILLISECONDS = 1000L;
 
-    public static final String URL_WEATHER_API = "http://api.openweathermap.org/data/2.5/weather?q=LencoisPaulista&lang=en&units=metric&appid=87f46dab64701a6795eb56aa61196334";
+    public static final String URL_PREFIX_WEATHER_API = "http://api.openweathermap.org/data/2.5/weather";
+
+    public static String createURL(String... parameters){
+        Uri uri = Uri.parse(URL_PREFIX_WEATHER_API);
+        Uri.Builder uribuilder = uri.buildUpon();
+        uribuilder.appendQueryParameter("q", parameters[ZERO]);
+        uribuilder.appendQueryParameter("lang", "en");
+        uribuilder.appendQueryParameter("units", "metric");
+        uribuilder.appendQueryParameter("appid", "87f46dab64701a6795eb56aa61196334");
+        return uribuilder.toString();
+    }
 
     public static String getFormattedDateTime(Long dateTime, String formatDateTime) {
         Date date = new Date(dateTime * MILLISECONDS);
