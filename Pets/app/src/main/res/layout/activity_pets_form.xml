@@ -1,9 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_margin"
     tools:context="ra.com.br.pets.PetsFormActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout style="@style/AppLinearLayoutFields">
+
+        <TextView
+            style="@style/AppTextViewFields"
+            android:drawableLeft="@drawable/ic_cat" />
+
+        <EditText
+            android:id="@+id/edit_text_name"
+            style="@style/AppEditTextFields"
+            android:hint="@string/name"
+            android:inputType="textCapWords"
+            android:maxLength="40" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/AppLinearLayoutFields">
+
+        <TextView style="@style/AppTextViewFields" />
+
+        <EditText
+            android:id="@+id/edit_text_breed"
+            style="@style/AppEditTextFields"
+            android:hint="@string/breed"
+            android:inputType="textCapWords"
+            android:maxLength="40" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/AppLinearLayoutFields">
+
+        <TextView
+            style="@style/AppTextViewFields"
+            android:drawableLeft="@drawable/ic_gender" />
+
+        <Spinner
+            android:id="@+id/spinner_gender"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="12dp"
+            android:paddingLeft="0dp"
+            android:layout_weight="9"
+            android:spinnerMode="dropdown" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/AppLinearLayoutFields">
+
+        <TextView
+            style="@style/AppTextViewFields"
+            android:drawableLeft="@drawable/ic_weight" />
+
+        <EditText
+            android:id="@+id/edit_text_weight"
+            style="@style/AppEditTextFields"
+            android:hint="@string/weight"
+            android:inputType="numberDecimal"
+            android:maxLength="8" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -2,5 +2,12 @@
     <string name="app_name">Pets</string>
     <string name="action_delete_all_pets">Delete All Pets</string>
     <string name="title_activity_pets_form">Add new pet</string>
+    <string name="name">Name</string>
+    <string name="breed">Breed</string>
+    <string name="gender">Gender</string>
+    <string name="weight">Weight</string>
 
+    <string name="gender_unknown">Unknown</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
 </resources>
