@@ -6,6 +6,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
+
+import java.util.List;
+
+import ra.com.br.pets.data.PetContract;
+import ra.com.br.pets.data.PetDao;
 
 public class PetsIndexActivity extends AppCompatActivity {
 
@@ -22,6 +28,27 @@ public class PetsIndexActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        TextView textViewDisplayPets = (TextView) findViewById(R.id.text_view_display_pets);
+
+        PetDao petDao = new PetDao(PetsIndexActivity.this);
+        List<Pet> pets = petDao.selectAll();
+        if(!pets.isEmpty()){
+            textViewDisplayPets.setText("The pets table contains " + pets.size() + " pets.\n\n");
+            textViewDisplayPets.append(PetContract.PetEntry._ID + " - " +
+                    PetContract.PetEntry.COLUMN_PET_NAME + "\n\n");
+
+            for(Pet pet : pets){
+                textViewDisplayPets.append(pet.getId() + " - " + pet.getName() + "\n");
+            }
+        }else{
+            textViewDisplayPets.setText("No pets");
+        }
     }
 
     @Override

@@ -63,7 +63,7 @@
             android:id="@+id/edit_text_weight"
             style="@style/AppEditTextFields"
             android:hint="@string/weight"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:maxLength="8" />
 
     </LinearLayout>

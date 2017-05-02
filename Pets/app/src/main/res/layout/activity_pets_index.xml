@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     tools:context="ra.com.br.pets.PetsIndexActivity">
 
+    <TextView
+        android:id="@+id/text_view_display_pets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_margin"
+        android:textSize="16sp"
+        tools:text="@string/app_name" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_button_add_pet"
         android:layout_width="wrap_content"
