@@ -27,9 +27,7 @@ public class PetDao {
         String[] projection = {
                 PetEntry._ID,
                 PetEntry.COLUMN_PET_NAME,
-                PetEntry.COLUMN_PET_BREED,
-                PetEntry.COLUMN_PET_GENDER,
-                PetEntry.COLUMN_PET_WEIGHT
+                PetEntry.COLUMN_PET_BREED
         };
         Cursor cursor = sqLiteDatabase.query(PetEntry.TABLE_NAME, projection, null, null, null, null, null);
         try {
@@ -37,6 +35,7 @@ public class PetDao {
                 Pet pet = new Pet();
                 pet.setId(cursor.getLong(cursor.getColumnIndex(PetEntry._ID)));
                 pet.setName(cursor.getString(cursor.getColumnIndex(PetEntry.COLUMN_PET_NAME)));
+                pet.setBreed(cursor.getString(cursor.getColumnIndex(PetEntry.COLUMN_PET_BREED)));
                 pets.add(pet);
             }
         } finally {

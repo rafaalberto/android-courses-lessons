@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PetsIndexActivity">
+        <activity android:name=".PetIndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,13 +17,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PetsFormActivity"
+            android:name=".PetFormActivity"
             android:label="@string/title_activity_pets_form"
-            android:parentActivityName=".PetsIndexActivity"
+            android:parentActivityName=".PetIndexActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PetsIndexActivity" />
+                android:value=".PetIndexActivity" />
         </activity>
     </application>
 

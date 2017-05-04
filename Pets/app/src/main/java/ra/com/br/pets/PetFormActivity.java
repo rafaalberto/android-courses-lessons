@@ -22,20 +22,20 @@ import java.util.ArrayList;
 import ra.com.br.pets.data.PetContract.PetEntry;
 import ra.com.br.pets.data.PetDao;
 
-public class PetsFormActivity extends AppCompatActivity {
+public class PetFormActivity extends AppCompatActivity {
 
     private int gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pets_form);
+        setContentView(R.layout.activity_pet_form);
         loadSpinner();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_pets_form, menu);
+        getMenuInflater().inflate(R.menu.menu_pet_form, menu);
         return true;
     }
 
@@ -56,7 +56,7 @@ public class PetsFormActivity extends AppCompatActivity {
         pet.setName(editTextName.getText().toString().trim());
 
         EditText editTextBreed = (EditText) findViewById(R.id.edit_text_breed);
-        pet.setBreed(editTextBreed.toString().trim());
+        pet.setBreed(editTextBreed.getText().toString().trim());
 
         pet.setGender(gender);
 
@@ -82,7 +82,7 @@ public class PetsFormActivity extends AppCompatActivity {
         genders.add(getString(R.string.gender_male));
         genders.add(getString(R.string.gender_female));
 
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout_gender, genders) {
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_gender, genders) {
             @Override
             public boolean isEnabled(int position) {
                 return position == Constants.ZERO ? false : true;
