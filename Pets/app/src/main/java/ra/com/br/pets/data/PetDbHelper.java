@@ -19,14 +19,13 @@ public class PetDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        StringBuilder sqlCreatePetsTable = new StringBuilder();
-        sqlCreatePetsTable.append("CREATE TABLE " + PetEntry.TABLE_NAME + " (")
-                .append(PetEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, ")
-                .append(PetEntry.COLUMN_PET_NAME + " TEXT NOT NULL, ")
-                .append(PetEntry.COLUMN_PET_BREED + " TEXT, ")
-                .append(PetEntry.COLUMN_PET_GENDER + " INTEGER NOT NULL, ")
-                .append(PetEntry.COLUMN_PET_WEIGHT + " INTEGER NOT NULL DEFAULT 0);");
-        db.execSQL(sqlCreatePetsTable.toString());
+        String SQL_CREATE_PETS_TABLE = "CREATE TABLE " + PetEntry.TABLE_NAME + " (" +
+                PetEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                PetEntry.COLUMN_PET_NAME + " TEXT NOT NULL, " +
+                PetEntry.COLUMN_PET_BREED + " TEXT, " +
+                PetEntry.COLUMN_PET_GENDER + " INTEGER NOT NULL, " +
+                PetEntry.COLUMN_PET_WEIGHT + " INTEGER NOT NULL DEFAULT 0);";
+        db.execSQL(SQL_CREATE_PETS_TABLE);
     }
 
     @Override
