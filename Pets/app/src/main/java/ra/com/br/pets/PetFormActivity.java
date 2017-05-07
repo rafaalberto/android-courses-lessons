@@ -1,6 +1,7 @@
 package ra.com.br.pets;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,7 +45,6 @@ public class PetFormActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_save:
                 insertPets();
-                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -61,15 +61,14 @@ public class PetFormActivity extends AppCompatActivity {
         pet.setGender(gender);
 
         EditText editTextWeight = (EditText) findViewById(R.id.edit_text_weight);
-        pet.setWeight(Integer.valueOf(editTextWeight.getText().toString()));
+        pet.setWeight(!editTextWeight.getText().toString().equals(Constants.EMPTY) ? Integer.valueOf(editTextWeight.getText().toString()) : Constants.ZERO);
 
-        PetDao petDao = new PetDao(this);
-        long newRowId = petDao.insert(pet);
-
-        if (newRowId == -1) {
-            Toast.makeText(this, "Erro saving pet", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Inserted pet id: " + newRowId, Toast.LENGTH_SHORT).show();
+        try {
+            Uri uri = PetDao.insert(getContentResolver(), pet);
+            Toast.makeText(this, uri != null ? getString(R.string.pet_insert_successful) : getString(R.string.pet_insert_failed), Toast.LENGTH_SHORT).show();
+            finish();
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

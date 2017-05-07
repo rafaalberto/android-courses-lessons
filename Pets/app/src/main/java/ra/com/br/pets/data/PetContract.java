@@ -16,6 +16,7 @@ public final class PetContract {
 
     public static final class PetEntry implements BaseColumns {
 
+        //uri - content://ra.com.br.pets/pets
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PETS);
 
         public static final String TABLE_NAME = "pets";

@@ -1,9 +1,9 @@
 package ra.com.br.pets.data;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,25 +11,17 @@ import java.util.List;
 import ra.com.br.pets.Pet;
 import ra.com.br.pets.data.PetContract.PetEntry;
 
-public class PetDao {
+public abstract class PetDao {
 
-    private PetDbHelper petDbHelper;
-    private Context context;
-
-    public PetDao(Context context) {
-        this.context = context;
-        petDbHelper = new PetDbHelper(context);
-    }
-
-    public List<Pet> selectAll() {
-        List<Pet> pets = new ArrayList<Pet>();
-        SQLiteDatabase sqLiteDatabase = petDbHelper.getReadableDatabase();
+    public static List<Pet> selectAll(ContentResolver contentResolver) {
+        List<Pet> pets = new ArrayList<>();
         String[] projection = {
-                PetEntry._ID,
-                PetEntry.COLUMN_PET_NAME,
-                PetEntry.COLUMN_PET_BREED
+                PetContract.PetEntry._ID,
+                PetContract.PetEntry.COLUMN_PET_NAME,
+                PetContract.PetEntry.COLUMN_PET_BREED
         };
-        Cursor cursor = sqLiteDatabase.query(PetEntry.TABLE_NAME, projection, null, null, null, null, null);
+        //content://ra.com.br.pets/pets/
+        Cursor cursor = contentResolver.query(PetEntry.CONTENT_URI, projection, null, null, null);
         try {
             while (cursor.moveToNext()) {
                 Pet pet = new Pet();
@@ -44,14 +36,12 @@ public class PetDao {
         return pets;
     }
 
-    public long insert(Pet pet) {
-        SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
+    public static Uri insert(ContentResolver contentResolver, Pet pet) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(PetEntry.COLUMN_PET_NAME, pet.getName());
         contentValues.put(PetEntry.COLUMN_PET_BREED, pet.getBreed());
         contentValues.put(PetEntry.COLUMN_PET_GENDER, pet.getGender());
         contentValues.put(PetEntry.COLUMN_PET_WEIGHT, pet.getWeight());
-        long newRowId = sqLiteDatabase.insert(PetEntry.TABLE_NAME, null, contentValues);
-        return newRowId;
+        return contentResolver.insert(PetEntry.CONTENT_URI, contentValues);
     }
 }

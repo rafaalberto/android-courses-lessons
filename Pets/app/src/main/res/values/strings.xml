@@ -11,4 +11,10 @@
     <string name="gender_unknown">Unknown</string>
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
+
+    <string name="pet_insert_successful">Pet saved</string>
+    <string name="pet_insert_failed">Error with saving pet</string>
+    <string name="pet_requires_name">Pet requires a name</string>
+    <string name="pet_requires_breed">Pet requires a breed</string>
+    <string name="pet_requires_gender">Pet requires a gender</string>
 </resources>
