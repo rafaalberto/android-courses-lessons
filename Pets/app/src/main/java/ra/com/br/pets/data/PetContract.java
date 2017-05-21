@@ -1,5 +1,6 @@
 package ra.com.br.pets.data;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -18,6 +19,14 @@ public final class PetContract {
 
         //uri - content://ra.com.br.pets/pets
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PETS);
+
+        //vnd.android.cursor.dir/ra.com.br.pets/pets
+        public static final String CONTENT_LIST_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                CONTENT_AUTHORITY_URI + "/" + PATH_PETS;
+
+        //vnd.android.cursor.item/ra.com.br.pets/pets
+        public static final String CONTENT_ITEM_BASE_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" +
+                CONTENT_AUTHORITY_URI + "/" + PATH_PETS;
 
         public static final String TABLE_NAME = "pets";
 

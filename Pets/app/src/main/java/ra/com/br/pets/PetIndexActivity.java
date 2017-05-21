@@ -31,8 +31,11 @@ public class PetIndexActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         ListView listViewPets = (ListView) findViewById(R.id.list_view_pets);
-        PetAdapter petAdapter = new PetAdapter(this, PetDao.selectAll(getContentResolver()));
-        listViewPets.setAdapter(petAdapter);
+        PetCursorAdapter petCursorAdapter = new PetCursorAdapter(this, PetDao.selectAll(getContentResolver()));
+        listViewPets.setAdapter(petCursorAdapter);
+
+        View viewEmpty = findViewById(R.id.view_empty);
+        listViewPets.setEmptyView(viewEmpty);
     }
 
     @Override

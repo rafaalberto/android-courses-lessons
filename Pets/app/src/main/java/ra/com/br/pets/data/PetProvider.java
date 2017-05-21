@@ -59,7 +59,15 @@ public class PetProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        return null;
+        final int match = uriMatcher.match(uri);
+        switch (match) {
+            case PETS:
+                return PetEntry.CONTENT_LIST_TYPE;
+            case PET_ID:
+                return PetEntry.CONTENT_ITEM_BASE_TYPE;
+            default:
+                throw new IllegalArgumentException("Unknown URI " + uri + " with match " + match);
+        }
     }
 
     @Override
@@ -75,12 +83,33 @@ public class PetProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
+        final int match = uriMatcher.match(uri);
+        switch (match) {
+            case PETS:
+                return sqLiteDatabase.delete(PetEntry.TABLE_NAME, selection, selectionArgs);
+            case PET_ID:
+                selection = PetEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return sqLiteDatabase.delete(PetEntry.TABLE_NAME, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Delete is not supported for " + uri);
+        }
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        final int match = uriMatcher.match(uri);
+        switch (match) {
+            case PETS:
+                return updatePet(values, selection, selectionArgs);
+            case PET_ID:
+                selection = PetEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return updatePet(values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
     }
 
     private Uri insertPet(Uri uri, ContentValues contentValues) {
@@ -92,6 +121,15 @@ public class PetProvider extends ContentProvider {
             return null;
         }
         return ContentUris.withAppendedId(uri, id);
+    }
+
+    private int updatePet(ContentValues values, String selection, String[] selectionArgs) {
+        checkData(values);
+        if (values.size() == Constants.ZERO) {
+            return Constants.ZERO;
+        }
+        SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
+        return sqLiteDatabase.update(PetEntry.TABLE_NAME, values, selection, selectionArgs);
     }
 
     private void checkData(ContentValues contentValues) {

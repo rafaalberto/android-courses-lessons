@@ -2,6 +2,8 @@
     <string name="app_name">Pets</string>
     <string name="action_delete">Delete</string>
     <string name="action_delete_all_pets">Delete All Pets</string>
+    <string name="empty_title_text">It\'s a bit lonely here...</string>
+    <string name="empty_subtitle_text">Get started by adding a pet</string>
     <string name="title_activity_pets_form">Add new pet</string>
     <string name="name">Name</string>
     <string name="breed">Breed</string>
@@ -17,4 +19,6 @@
     <string name="pet_requires_name">Pet requires a name</string>
     <string name="pet_requires_breed">Pet requires a breed</string>
     <string name="pet_requires_gender">Pet requires a gender</string>
+
+
 </resources>

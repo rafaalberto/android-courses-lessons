@@ -47,8 +47,8 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginLeft="12dp"
-            android:paddingLeft="0dp"
             android:layout_weight="9"
+            android:paddingLeft="0dp"
             android:spinnerMode="dropdown" />
 
     </LinearLayout>
