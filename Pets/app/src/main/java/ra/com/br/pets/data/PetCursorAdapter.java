@@ -1,4 +1,4 @@
-package ra.com.br.pets;
+package ra.com.br.pets.data;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import ra.com.br.pets.data.PetContract;
+import ra.com.br.pets.R;
 
 public class PetCursorAdapter extends CursorAdapter {
 

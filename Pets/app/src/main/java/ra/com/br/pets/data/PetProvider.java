@@ -54,6 +54,7 @@ public class PetProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -83,15 +84,14 @@ public class PetProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
         final int match = uriMatcher.match(uri);
         switch (match) {
             case PETS:
-                return sqLiteDatabase.delete(PetEntry.TABLE_NAME, selection, selectionArgs);
+                return deletePet(uri, selection, selectionArgs);
             case PET_ID:
                 selection = PetEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return sqLiteDatabase.delete(PetEntry.TABLE_NAME, selection, selectionArgs);
+                return deletePet(uri, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Delete is not supported for " + uri);
         }
@@ -102,11 +102,11 @@ public class PetProvider extends ContentProvider {
         final int match = uriMatcher.match(uri);
         switch (match) {
             case PETS:
-                return updatePet(values, selection, selectionArgs);
+                return updatePet(uri, values, selection, selectionArgs);
             case PET_ID:
                 selection = PetEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return updatePet(values, selection, selectionArgs);
+                return updatePet(uri, values, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
@@ -120,16 +120,31 @@ public class PetProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
+        //URI: content://ra.com.pets/pets
+        getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, id);
     }
 
-    private int updatePet(ContentValues values, String selection, String[] selectionArgs) {
+    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         checkData(values);
         if (values.size() == Constants.ZERO) {
             return Constants.ZERO;
         }
         SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
-        return sqLiteDatabase.update(PetEntry.TABLE_NAME, values, selection, selectionArgs);
+        int rowsUpdated = sqLiteDatabase.update(PetEntry.TABLE_NAME, values, selection, selectionArgs);
+        if(rowsUpdated != Constants.ZERO){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsUpdated;
+    }
+
+    private int deletePet(Uri uri, String selection, String[] selectionArgs){
+        SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
+        int rowsDeleted = sqLiteDatabase.delete(PetEntry.TABLE_NAME, selection, selectionArgs);
+        if(rowsDeleted != Constants.ZERO){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsDeleted;
     }
 
     private void checkData(ContentValues contentValues) {

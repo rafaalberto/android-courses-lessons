@@ -18,7 +18,6 @@
         </activity>
         <activity
             android:name=".PetFormActivity"
-            android:label="@string/title_activity_pets_form"
             android:parentActivityName=".PetIndexActivity"
             android:theme="@style/AppTheme">
             <meta-data
