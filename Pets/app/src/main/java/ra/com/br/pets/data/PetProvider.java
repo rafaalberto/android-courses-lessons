@@ -132,16 +132,16 @@ public class PetProvider extends ContentProvider {
         }
         SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
         int rowsUpdated = sqLiteDatabase.update(PetEntry.TABLE_NAME, values, selection, selectionArgs);
-        if(rowsUpdated != Constants.ZERO){
+        if (rowsUpdated != Constants.ZERO) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsUpdated;
     }
 
-    private int deletePet(Uri uri, String selection, String[] selectionArgs){
+    private int deletePet(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
         int rowsDeleted = sqLiteDatabase.delete(PetEntry.TABLE_NAME, selection, selectionArgs);
-        if(rowsDeleted != Constants.ZERO){
+        if (rowsDeleted != Constants.ZERO) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsDeleted;

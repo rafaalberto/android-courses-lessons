@@ -34,25 +34,16 @@ import ra.com.br.pets.data.PetDao;
 
 public class PetFormActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int EXISTING_PET_LOADER = 0;
-
-    private int gender;
-    private Uri currentPetUri;
+    private static final int ID_PET_LOADER = Constants.ZERO;
 
     private EditText editTextName;
     private EditText editTextBreed;
     private Spinner spinnerGender;
     private EditText editTextWeight;
 
+    private int gender;
+    private Uri currentPetUri;
     private boolean petHasChanged = false;
-    private View.OnTouchListener touchListener = new View.OnTouchListener() {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            petHasChanged = true;
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +70,7 @@ public class PetFormActivity extends AppCompatActivity implements LoaderManager.
             invalidateOptionsMenu();
         } else {
             setTitle(R.string.title_activity_edit_pet);
-            getLoaderManager().initLoader(EXISTING_PET_LOADER, null, this);
+            getLoaderManager().initLoader(ID_PET_LOADER, null, this);
         }
     }
 
@@ -119,7 +110,7 @@ public class PetFormActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if(currentPetUri == null){
+        if (currentPetUri == null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete);
             menuItem.setVisible(false);
         }
@@ -128,27 +119,18 @@ public class PetFormActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = {
-                PetEntry._ID,
-                PetEntry.COLUMN_PET_NAME,
-                PetEntry.COLUMN_PET_BREED,
-                PetEntry.COLUMN_PET_GENDER,
-                PetEntry.COLUMN_PET_WEIGHT};
-        return new CursorLoader(this, currentPetUri, projection, null, null, null);
+        return new CursorLoader(this, currentPetUri, PetDao.projectionForm(), null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor.moveToFirst()) {
-            String name = cursor.getString(cursor.getColumnIndex(PetEntry.COLUMN_PET_NAME));
-            String breed = cursor.getString(cursor.getColumnIndex(PetEntry.COLUMN_PET_BREED));
-            int gender = cursor.getInt(cursor.getColumnIndex(PetEntry.COLUMN_PET_GENDER));
-            int weight = cursor.getInt(cursor.getColumnIndex(PetEntry.COLUMN_PET_WEIGHT));
+            Pet pet = PetDao.getData(cursor);
+            editTextName.setText(pet.getName());
+            editTextBreed.setText(pet.getBreed());
+            editTextWeight.setText(Integer.toString(pet.getWeight()));
 
-            editTextName.setText(name);
-            editTextBreed.setText(breed);
-
-            switch (gender) {
+            switch (pet.getGender()) {
                 case PetEntry.GENDER_MALE:
                     spinnerGender.setSelection(PetEntry.GENDER_MALE);
                     break;
@@ -158,7 +140,6 @@ public class PetFormActivity extends AppCompatActivity implements LoaderManager.
                 default:
                     spinnerGender.setSelection(PetEntry.GENDER_UNKNOWN);
             }
-            editTextWeight.setText(Integer.toString(weight));
         }
     }
 
@@ -184,36 +165,14 @@ public class PetFormActivity extends AppCompatActivity implements LoaderManager.
         showUnsavedChangesDialog(discardButtonClickListener);
     }
 
-    private void savePet() {
-        Pet pet = new Pet();
-        EditText editTextName = (EditText) findViewById(R.id.edit_text_name);
-        pet.setName(editTextName.getText().toString().trim());
+    private View.OnTouchListener touchListener = new View.OnTouchListener() {
 
-        EditText editTextBreed = (EditText) findViewById(R.id.edit_text_breed);
-        pet.setBreed(editTextBreed.getText().toString().trim());
-
-        pet.setGender(gender);
-
-        EditText editTextWeight = (EditText) findViewById(R.id.edit_text_weight);
-        pet.setWeight(!editTextWeight.getText().toString().equals(Constants.EMPTY) ? Integer.valueOf(editTextWeight.getText().toString()) : Constants.ZERO);
-
-        try {
-            if (currentPetUri == null) {
-                Uri uri = PetDao.insert(getContentResolver(), pet);
-                Toast.makeText(this, uri != null ? getString(R.string.pet_insert_successful) : getString(R.string.pet_insert_failed), Toast.LENGTH_SHORT).show();
-            } else {
-                int rowsUpdated = PetDao.update(getContentResolver(), currentPetUri, pet);
-                if (rowsUpdated != Constants.ZERO) {
-                    Toast.makeText(this, getString(R.string.pet_update_successful), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, getString(R.string.pet_update_failed), Toast.LENGTH_SHORT).show();
-                }
-            }
-            finish();
-        } catch (IllegalArgumentException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            petHasChanged = true;
+            return false;
         }
-    }
+    };
 
     private void loadSpinner() {
         ArrayList<String> genders = new ArrayList<String>();
@@ -267,6 +226,37 @@ public class PetFormActivity extends AppCompatActivity implements LoaderManager.
         });
     }
 
+    private void savePet() {
+        Pet pet = new Pet();
+        editTextName = (EditText) findViewById(R.id.edit_text_name);
+        pet.setName(editTextName.getText().toString().trim());
+
+        editTextBreed = (EditText) findViewById(R.id.edit_text_breed);
+        pet.setBreed(editTextBreed.getText().toString().trim());
+
+        pet.setGender(gender);
+
+        editTextWeight = (EditText) findViewById(R.id.edit_text_weight);
+        pet.setWeight(!editTextWeight.getText().toString().equals(Constants.EMPTY) ? Integer.valueOf(editTextWeight.getText().toString()) : Constants.ZERO);
+
+        try {
+            if (currentPetUri == null) {
+                Uri uri = PetDao.insert(getContentResolver(), pet);
+                Toast.makeText(this, uri != null ? getString(R.string.pet_insert_successful) : getString(R.string.pet_insert_failed), Toast.LENGTH_SHORT).show();
+            } else {
+                int rowsUpdated = PetDao.update(getContentResolver(), currentPetUri, pet);
+                if (rowsUpdated != Constants.ZERO) {
+                    Toast.makeText(this, getString(R.string.pet_update_successful), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, getString(R.string.pet_update_failed), Toast.LENGTH_SHORT).show();
+                }
+            }
+            finish();
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.unsaved_changes_dialog_msg);
@@ -302,12 +292,12 @@ public class PetFormActivity extends AppCompatActivity implements LoaderManager.
         alertDialog.show();
     }
 
-    private void deletePet(){
-        if(currentPetUri != null){
+    private void deletePet() {
+        if (currentPetUri != null) {
             int rowsDeleted = PetDao.delete(getContentResolver(), currentPetUri);
-            if(rowsDeleted != Constants.ZERO){
+            if (rowsDeleted != Constants.ZERO) {
                 Toast.makeText(this, getString(R.string.editor_delete_pet_successful), Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 Toast.makeText(this, getString(R.string.editor_delete_pet_failed), Toast.LENGTH_SHORT).show();
             }
         }

@@ -2,6 +2,7 @@ package ra.com.br.pets.data;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 
 import ra.com.br.pets.Pet;
@@ -29,5 +30,33 @@ public abstract class PetDao {
 
     public static int delete(ContentResolver contentResolver, Uri uri) {
         return contentResolver.delete(uri, null, null);
+    }
+
+    public static String[] projectionIndex() {
+        String[] projection = {
+                PetContract.PetEntry._ID,
+                PetContract.PetEntry.COLUMN_PET_NAME,
+                PetContract.PetEntry.COLUMN_PET_BREED
+        };
+        return projection;
+    }
+
+    public static String[] projectionForm() {
+        String[] projection = {
+                PetEntry._ID,
+                PetEntry.COLUMN_PET_NAME,
+                PetEntry.COLUMN_PET_BREED,
+                PetEntry.COLUMN_PET_GENDER,
+                PetEntry.COLUMN_PET_WEIGHT};
+        return projection;
+    }
+
+    public static Pet getData(Cursor cursor) {
+        Pet pet = new Pet();
+        pet.setName(cursor.getString(cursor.getColumnIndex(PetEntry.COLUMN_PET_NAME)));
+        pet.setBreed(cursor.getString(cursor.getColumnIndex(PetEntry.COLUMN_PET_BREED)));
+        pet.setGender(cursor.getInt(cursor.getColumnIndex(PetEntry.COLUMN_PET_GENDER)));
+        pet.setWeight(cursor.getInt(cursor.getColumnIndex(PetEntry.COLUMN_PET_WEIGHT)));
+        return pet;
     }
 }

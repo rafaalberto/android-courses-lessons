@@ -25,7 +25,7 @@ import ra.com.br.pets.data.PetDao;
 
 public class PetIndexActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int PET_LOADER = 0;
+    private static final int PET_LOADER = Constants.ZERO;
 
     PetCursorAdapter petCursorAdapter;
 
@@ -47,13 +47,6 @@ public class PetIndexActivity extends AppCompatActivity implements LoaderManager
         petCursorAdapter = new PetCursorAdapter(this, null);
         listViewPets.setAdapter(petCursorAdapter);
 
-        if(petCursorAdapter.isEmpty()){
-            invalidateOptionsMenu();
-        }
-
-        View viewEmpty = findViewById(R.id.view_empty);
-        listViewPets.setEmptyView(viewEmpty);
-
         listViewPets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,6 +56,9 @@ public class PetIndexActivity extends AppCompatActivity implements LoaderManager
                 startActivity(intent);
             }
         });
+
+        View viewEmpty = findViewById(R.id.view_empty);
+        listViewPets.setEmptyView(viewEmpty);
 
         getLoaderManager().initLoader(PET_LOADER, null, this);
     }
@@ -75,7 +71,7 @@ public class PetIndexActivity extends AppCompatActivity implements LoaderManager
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_delete_all_entries:
                 showDeleteConfirmationDialog();
                 return true;
@@ -84,18 +80,24 @@ public class PetIndexActivity extends AppCompatActivity implements LoaderManager
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (petCursorAdapter.isEmpty()) {
+            MenuItem menuItem = menu.findItem(R.id.action_delete_all_entries);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = {
-                PetContract.PetEntry._ID,
-                PetContract.PetEntry.COLUMN_PET_NAME,
-                PetContract.PetEntry.COLUMN_PET_BREED
-        };
-        return new CursorLoader(this, PetContract.PetEntry.CONTENT_URI, projection, null, null, null);
+        return new CursorLoader(this, PetContract.PetEntry.CONTENT_URI, PetDao.projectionIndex(), null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         petCursorAdapter.swapCursor(data);
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -122,11 +124,11 @@ public class PetIndexActivity extends AppCompatActivity implements LoaderManager
         alertDialog.show();
     }
 
-    private void deleteAllPets(){
+    private void deleteAllPets() {
         int rowsDeleted = PetDao.delete(getContentResolver(), PetContract.PetEntry.CONTENT_URI);
-        if(rowsDeleted != Constants.ZERO){
+        if (rowsDeleted != Constants.ZERO) {
             Toast.makeText(this, getString(R.string.editor_delete_pet_successful), Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Toast.makeText(this, getString(R.string.editor_delete_pet_failed), Toast.LENGTH_SHORT).show();
         }
     }
