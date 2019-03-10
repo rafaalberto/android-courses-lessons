@@ -21,7 +21,7 @@ public final class OpenWeatherJsonUtils {
         final String OWM_MAX = "max";
         final String OWM_MIN = "min";
         final String OWM_WEATHER = "weather";
-        final String OWM_DESCRIPTION = "main";
+        final String OWM_DESCRIPTION = "description";
         final String OWM_MESSAGE_CODE = "cod";
 
         String[] parsedWeatherData = null;
