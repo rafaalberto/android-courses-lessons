@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-
-        countryAdapter = new CountryAdapter();
-        recyclerView.setAdapter(countryAdapter);
 
         List<String> countries = new ArrayList<>();
         countries.add("Brazil");
@@ -50,12 +50,31 @@ public class MainActivity extends AppCompatActivity {
 
         Collections.sort(countries, (item1, item2) -> item1.compareTo(item2));
 
-        countryAdapter.setCities(countries);
+        countryAdapter = new CountryAdapter(countries);
+        recyclerView.setAdapter(countryAdapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String textSearch) {
+                countryAdapter.getFilter().filter(textSearch);
+                return false;
+            }
+        });
+
         return true;
     }
 }

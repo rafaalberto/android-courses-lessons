@@ -6,13 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryAdapterViewHolder> {
+public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryAdapterViewHolder> implements Filterable {
 
     private List<String> countries;
+    private List<String> countriesFull;
 
     public class CountryAdapterViewHolder extends RecyclerView.ViewHolder {
 
@@ -22,6 +26,11 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryA
             super(itemView);
             textViewCityItem = itemView.findViewById(R.id.text_view_city_item);
         }
+    }
+
+    CountryAdapter(List<String> countries) {
+        this.countries = countries;
+        countriesFull = new ArrayList<>(countries);
     }
 
     @NonNull
@@ -37,19 +46,47 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryA
 
     @Override
     public void onBindViewHolder(@NonNull CountryAdapterViewHolder countryAdapterViewHolder, int i) {
-        String city = this.countries.get(i);
+        String city = countries.get(i);
         countryAdapterViewHolder.textViewCityItem.setText(city);
     }
 
     @Override
     public int getItemCount() {
-        if(this.countries.size() == 0) return 0;
-        return this.countries.size();
+        return countries.size();
     }
 
-    public void setCities(List<String> countries) {
-        this.countries = countries;
-        notifyDataSetChanged();
+    @Override
+    public Filter getFilter() {
+        return countriesFilter;
     }
 
+    private Filter countriesFilter = new Filter() {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<String> filteredList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0) {
+                filteredList.addAll(countriesFull);
+            } else {
+                String filter = constraint.toString().toLowerCase().trim();
+                for(String item : countriesFull) {
+                    if(item.toLowerCase().contains(filter)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            countries.clear();
+            countries.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }
