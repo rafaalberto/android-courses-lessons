@@ -14,6 +14,16 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryA
 
     private List<String> countries;
 
+    public class CountryAdapterViewHolder extends RecyclerView.ViewHolder {
+
+        private final TextView textViewCityItem;
+
+        public CountryAdapterViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textViewCityItem = itemView.findViewById(R.id.text_view_city_item);
+        }
+    }
+
     @NonNull
     @Override
     public CountryAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -40,16 +50,6 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryA
     public void setCities(List<String> countries) {
         this.countries = countries;
         notifyDataSetChanged();
-    }
-
-    public class CountryAdapterViewHolder extends RecyclerView.ViewHolder {
-
-        private final TextView textViewCityItem;
-
-        public CountryAdapterViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textViewCityItem = itemView.findViewById(R.id.text_view_city_item);
-        }
     }
 
 }

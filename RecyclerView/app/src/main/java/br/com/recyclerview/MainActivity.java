@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,5 +51,11 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(countries, (item1, item2) -> item1.compareTo(item2));
 
         countryAdapter.setCities(countries);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
     }
 }
