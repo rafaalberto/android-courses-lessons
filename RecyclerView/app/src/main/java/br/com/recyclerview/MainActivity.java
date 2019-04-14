@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private CountryAdapter countryAdapter;
+    private TextView textViewNoResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recyclerview_list);
+        textViewNoResults = findViewById(R.id.text_view_no_results);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -71,10 +75,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String textSearch) {
                 countryAdapter.getFilter().filter(textSearch);
+                textViewNoResults.setText("No results for '" + textSearch + "'");
+
+                if(countryAdapter.getItemCount() == 0) {
+                    textViewNoResults.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                }else {
+                    textViewNoResults.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+
                 return false;
             }
         });
-
         return true;
     }
 }

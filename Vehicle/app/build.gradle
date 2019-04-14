@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "25.0.1"
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "ra.com.br.vehicle"
         minSdkVersion 15

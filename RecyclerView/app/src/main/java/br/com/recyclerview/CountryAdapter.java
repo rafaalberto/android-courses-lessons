@@ -17,6 +17,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryA
 
     private List<String> countries;
     private List<String> countriesFull;
+    public List<String> filteredList;
 
     public class CountryAdapterViewHolder extends RecyclerView.ViewHolder {
 
@@ -45,8 +46,8 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryA
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CountryAdapterViewHolder countryAdapterViewHolder, int i) {
-        String city = countries.get(i);
+    public void onBindViewHolder(@NonNull CountryAdapterViewHolder countryAdapterViewHolder, int index) {
+        String city = countries.get(index);
         countryAdapterViewHolder.textViewCityItem.setText(city);
     }
 
@@ -64,7 +65,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryA
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<String> filteredList = new ArrayList<>();
+            filteredList = new ArrayList<>();
 
             if(constraint == null || constraint.length() == 0) {
                 filteredList.addAll(countriesFull);
