@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         movies.add(new Movie("Pica-Pau: O Filme", "2018", "Comédia/Animação"));
         movies.add(new Movie("Meu malvado favorito 3", "2017", "Comédia"));
         movies.add(new Movie("Carros 3", "2019", "Animação"));
+        movies.add(new Movie("Batman", "2012", "Ação"));
+        movies.add(new Movie("Família Buscapé", "1994", "Comédia"));
+        movies.add(new Movie("Minions", "2015", "Animação"));
         return movies;
     }
 }
