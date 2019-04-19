@@ -1,18 +1,23 @@
 package br.com.recyclerview.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import br.com.recyclerview.R;
 import br.com.recyclerview.adapter.MoviesAdapter;
 import br.com.recyclerview.model.Movie;
+import br.com.recyclerview.utils.RecyclerItemClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +33,28 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewMovies.setHasFixedSize(true);
         recyclerViewMovies.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewMovies.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
-        recyclerViewMovies.setAdapter(new MoviesAdapter(fetchMovies()));
+
+        List<Movie> movies = fetchMovies();
+        Collections.sort(movies, (previousItem, nextItem) -> previousItem.getTitle().compareTo(nextItem.getTitle()));
+
+        recyclerViewMovies.setAdapter(new MoviesAdapter(movies));
+        recyclerViewMovies.addOnItemTouchListener(new RecyclerItemClickListener(
+                getApplicationContext(),
+                recyclerViewMovies,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Movie movie = movies.get(position);
+                        Toast.makeText(getApplicationContext(), "Filme selecionado: " + movie.getTitle(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) { }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) { }
+                }
+        ));
     }
 
     private List<Movie> fetchMovies() {
