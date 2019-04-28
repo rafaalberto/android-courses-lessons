@@ -1,4 +1,4 @@
-package br.com.sunshine;
+package br.com.sunshine.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import br.com.sunshine.R;
 
 public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapterViewHolder> {
 
@@ -56,7 +58,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
         public ForecastAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
-            weatherTextView = (TextView) itemView.findViewById(R.id.text_view_weather_data);
+            weatherTextView = itemView.findViewById(R.id.text_view_weather_data);
             itemView.setOnClickListener(this);
         }
 

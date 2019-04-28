@@ -1,6 +1,5 @@
 package br.com.sunshine.utilities;
 
-import android.content.ContentValues;
 import android.content.Context;
 
 import org.json.JSONArray;
