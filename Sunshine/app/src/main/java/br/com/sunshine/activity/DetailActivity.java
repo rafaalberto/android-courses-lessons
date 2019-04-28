@@ -39,6 +39,15 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int menuItemSelected = item.getItemId();
+        if (menuItemSelected == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private Intent createShareForestIntent() {
         return ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")

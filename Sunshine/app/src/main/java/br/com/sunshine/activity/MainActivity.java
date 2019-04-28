@@ -1,8 +1,10 @@
 package br.com.sunshine.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -26,10 +28,13 @@ import br.com.sunshine.data.SunshinePreferences;
 import br.com.sunshine.utilities.NetworkUtils;
 import br.com.sunshine.utilities.OpenWeatherJsonUtils;
 
-public class MainActivity extends AppCompatActivity implements ForecastAdapter.ForecastAdapterOnClickHandler, LoaderManager.LoaderCallbacks<String[]> {
+public class MainActivity extends AppCompatActivity implements
+        ForecastAdapter.ForecastAdapterOnClickHandler, LoaderManager.LoaderCallbacks<String[]>,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int FORECAST_LOADER_ID = 0;
+    private static boolean PREFERENCES_HAVE_BEEN_UPDATED = false;
 
     private RecyclerView recyclerView;
     private ForecastAdapter forecastAdapter;
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         progressBarLoading = findViewById(R.id.progressbar_loading);
 
         LoaderManager.getInstance(this).initLoader(FORECAST_LOADER_ID, null, MainActivity.this);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }
 
     @NonNull
@@ -141,12 +147,30 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
             LoaderManager.getInstance(this).restartLoader(FORECAST_LOADER_ID, null, this);
             return true;
         }
-
         if (menuItemSelected == R.id.action_map) {
             openLocationInMap();
             return true;
         }
+        if (menuItemSelected == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (PREFERENCES_HAVE_BEEN_UPDATED) {
+            LoaderManager.getInstance(this).restartLoader(FORECAST_LOADER_ID, null, this);
+            PREFERENCES_HAVE_BEEN_UPDATED = false;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     private void showWeatherDataView() {
@@ -160,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
     }
 
     private void openLocationInMap() {
-        String address = "1600 Ampitheatre Parkway, CA";
+        String address = SunshinePreferences.getPreferredWeatherLocation(this);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("geo:0,0?q=" + address));
 
@@ -171,5 +195,8 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         }
     }
 
-
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        PREFERENCES_HAVE_BEEN_UPDATED = true;
+    }
 }
