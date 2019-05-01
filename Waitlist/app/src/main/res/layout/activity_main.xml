@@ -20,7 +20,7 @@
             android:inputType="textPersonName|textCapWords" />
 
         <EditText
-            android:id="@+id/edit_text_party_count"
+            android:id="@+id/edit_text_party_size"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:contentDescription="@string/party_size_hint"
