@@ -4,15 +4,18 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import br.com.waitlist.R;
 import br.com.waitlist.adapter.GuestListAdapter;
+import br.com.waitlist.data.WaitlistContract;
 import br.com.waitlist.data.WaitlistDbHelper;
 
 import static br.com.waitlist.data.WaitlistContract.WaitlistEntry.COLUMN_GUEST_NAME;
@@ -57,6 +60,20 @@ public class MainActivity extends AppCompatActivity {
                 addToWaitlist();
             }
         });
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                long id = (long) viewHolder.itemView.getTag();
+                removeGuest(id);
+                guestListAdapter.swapCursor(getAllGuests());
+            }
+        }).attachToRecyclerView(recyclerViewAllGuests);
     }
 
     private Cursor getAllGuests() {
@@ -91,5 +108,11 @@ public class MainActivity extends AppCompatActivity {
         contentValues.put(COLUMN_GUEST_NAME, personName);
         contentValues.put(COLUMN_PARTY_SIZE, partySize);
         return db.insert(TABLE_NAME, null, contentValues);
+    }
+
+    private boolean removeGuest(long id) {
+        return db.delete(TABLE_NAME,
+                WaitlistContract.WaitlistEntry._ID + " = " + id,
+                null) > 0;
     }
 }

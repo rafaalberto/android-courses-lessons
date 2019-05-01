@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import br.com.waitlist.R;
 
+import static android.provider.BaseColumns._ID;
 import static br.com.waitlist.data.WaitlistContract.WaitlistEntry.COLUMN_GUEST_NAME;
 import static br.com.waitlist.data.WaitlistContract.WaitlistEntry.COLUMN_PARTY_SIZE;
 
@@ -34,10 +35,15 @@ public class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.Gues
 
     @Override
     public void onBindViewHolder(@NonNull GuestListAdapterViewHolder guestListAdapterViewHolder, int index) {
-        if(!cursor.moveToPosition(index)) return;
+        if(!cursor.moveToPosition(index)) {
+            return;
+        }
+
+        long id = cursor.getInt(cursor.getColumnIndex(_ID));
         String name = cursor.getString(cursor.getColumnIndex(COLUMN_GUEST_NAME));
         int partySize = cursor.getInt(cursor.getColumnIndex(COLUMN_PARTY_SIZE));
 
+        guestListAdapterViewHolder.itemView.setTag(id);
         guestListAdapterViewHolder.textViewName.setText(name);
         guestListAdapterViewHolder.textViewPartySize.setText(String.valueOf(partySize));
     }
