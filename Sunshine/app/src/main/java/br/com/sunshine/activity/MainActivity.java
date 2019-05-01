@@ -2,6 +2,7 @@ package br.com.sunshine.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -25,6 +26,7 @@ import java.net.URL;
 import br.com.sunshine.R;
 import br.com.sunshine.adapter.ForecastAdapter;
 import br.com.sunshine.data.SunshinePreferences;
+import br.com.sunshine.data.WeatherDbHelper;
 import br.com.sunshine.utilities.NetworkUtils;
 import br.com.sunshine.utilities.OpenWeatherJsonUtils;
 
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private TextView textViewErrorMessage;
     private ProgressBar progressBarLoading;
+
+    private SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements
 
         LoaderManager.getInstance(this).initLoader(FORECAST_LOADER_ID, null, MainActivity.this);
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+
+        WeatherDbHelper weatherDbHelper = new WeatherDbHelper(this);
+        database = weatherDbHelper.getWritableDatabase();
     }
 
     @NonNull
