@@ -16,11 +16,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import static br.com.todolist.data.TaskContract.TaskEntry.COLUMN_PRIORITY;
 import static br.com.todolist.data.TaskContract.TaskEntry.CONTENT_URI;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class MainActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor>, CustomCursorAdapter.ListItemClickListener{
 
     private static final int TASK_LOADER_ID = 0;
 
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         recyclerViewTasks.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewTasks.setHasFixedSize(true);
 
-        mAdapter = new CustomCursorAdapter(this);
+        mAdapter = new CustomCursorAdapter(this, this);
         recyclerViewTasks.setAdapter(mAdapter);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -60,8 +62,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public void onClick(View v) {
-                Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
-                startActivity(addTaskIntent);
+                Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -122,5 +124,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onListItemClick(int id) {
+        Uri uri = CONTENT_URI;
+        uri = uri.buildUpon().appendPath(String.valueOf(id)).build();
+        Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
+        intent.setData(uri);
+        startActivity(intent);
     }
 }

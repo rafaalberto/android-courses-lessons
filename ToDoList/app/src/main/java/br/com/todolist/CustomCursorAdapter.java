@@ -17,9 +17,15 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     private Context mContext;
     private Cursor mCursor;
+    private ListItemClickListener onClickListener;
 
-    CustomCursorAdapter(Context mContext) {
+    public interface ListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
+    }
+
+    CustomCursorAdapter(Context mContext, ListItemClickListener listItemClickListener) {
         this.mContext = mContext;
+        this.onClickListener = listItemClickListener;
     }
 
     @NonNull
@@ -82,7 +88,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         return temp;
     }
 
-    class TaskViewHolder extends RecyclerView.ViewHolder {
+    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView taskDescriptionView;
         TextView priorityView;
@@ -91,6 +97,14 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             super(itemView);
             taskDescriptionView = itemView.findViewById(R.id.taskDescription);
             priorityView = itemView.findViewById(R.id.priorityTextView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            mCursor.moveToPosition(getAdapterPosition());
+            int id = mCursor.getInt(mCursor.getColumnIndex(TaskEntry._ID));
+            onClickListener.onListItemClick(id);
         }
     }
 

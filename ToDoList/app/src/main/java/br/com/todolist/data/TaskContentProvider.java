@@ -117,6 +117,19 @@ public class TaskContentProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = taskDbHelper.getWritableDatabase();
+        int match = uriMatcher.match(uri);
+        int tasksUpdated = 0;
+        switch (match) {
+            case TASK_WITH_ID:
+                String id = uri.getPathSegments().get(1);
+                tasksUpdated = db.update(TABLE_NAME, values, "_id=?", new String[]{id});
+                break;
+        }
+        if(tasksUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return tasksUpdated;
     }
 }
