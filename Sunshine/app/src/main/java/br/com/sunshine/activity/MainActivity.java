@@ -113,9 +113,10 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onClick(String weatherForToday) {
+    public void onClick(long date) {
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT, weatherForToday);
+        Uri uriForDateClicked = WeatherContract.WeatherEntry.buildWeatherUriWithDate(date);
+        intent.setData(uriForDateClicked);
         startActivity(intent);
     }
 
