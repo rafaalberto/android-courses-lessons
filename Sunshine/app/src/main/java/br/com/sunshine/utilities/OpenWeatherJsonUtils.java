@@ -8,8 +8,6 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 
-import br.com.sunshine.data.SunshineDateUtils;
-
 public final class OpenWeatherJsonUtils {
 
     public static String[] getSimpleWeatherStringsFromJson(Context context, String forecastJsonStr)

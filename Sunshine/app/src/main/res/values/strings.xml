@@ -97,4 +97,6 @@
     <string name="pref_units_metric" translatable="false">metric</string>
     <string name="pref_units_imperial" translatable="false">imperial</string>
 
+    <string name="content_authority">br.com.sunshine</string>
+
 </resources>

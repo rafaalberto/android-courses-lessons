@@ -1,4 +1,4 @@
-package br.com.sunshine.data;
+package br.com.sunshine.utilities;
 
 import android.content.Context;
 import android.text.format.DateUtils;

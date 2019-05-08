@@ -1,6 +1,7 @@
 package br.com.sunshine.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,18 +10,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import br.com.sunshine.R;
+import br.com.sunshine.activity.MainActivity;
+import br.com.sunshine.utilities.SunshineDateUtils;
+import br.com.sunshine.utilities.SunshineWeatherUtils;
 
 public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapterViewHolder> {
 
-    private String[] weatherData;
-
+    private final Context mContext;
     private final ForecastAdapterOnClickHandler onClickHandler;
+    private Cursor mCursor;
 
-    public interface ForecastAdapterOnClickHandler {
-        void onClick(String weatherItem);
-    }
-
-    public ForecastAdapter(ForecastAdapterOnClickHandler onClickHandler) {
+    public ForecastAdapter(@NonNull Context context, ForecastAdapterOnClickHandler onClickHandler) {
+        this.mContext = context;
         this.onClickHandler = onClickHandler;
     }
 
@@ -37,19 +38,37 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     @Override
     public void onBindViewHolder(@NonNull ForecastAdapterViewHolder forecastAdapterViewHolder, int position) {
-        String weatherItem = this.weatherData[position];
-        forecastAdapterViewHolder.weatherTextView.setText(weatherItem);
+        mCursor.moveToPosition(position);
+
+        long dateInMillis = mCursor.getLong(MainActivity.INDEX_WEATHER_DATE);
+        String date = SunshineDateUtils.getFriendlyDateString(mContext, dateInMillis, false);
+
+        int weatherId = mCursor.getInt(MainActivity.INDEX_WEATHER_CONDITION_ID);
+        String description = SunshineWeatherUtils.getStringForWeatherCondition(mContext, weatherId);
+
+        double highInCelsius = mCursor.getDouble(MainActivity.INDEX_WEATHER_MAX_TEMP);
+        double lowInCelsius = mCursor.getDouble(MainActivity.INDEX_WEATHER_MIN_TEMP);
+
+        String highAndLowTemperature = SunshineWeatherUtils.formatHighLows(mContext, highInCelsius, lowInCelsius);
+
+        String weatherSummary = date + " - " + description + " - " + highAndLowTemperature;
+
+        forecastAdapterViewHolder.weatherTextView.setText(weatherSummary);
     }
 
     @Override
     public int getItemCount() {
-        if(this.weatherData == null) return 0;
-        return this.weatherData.length;
+        if (null == mCursor) return 0;
+        return mCursor.getCount();
     }
 
-    public void setWeatherData(String[] weatherData) {
-        this.weatherData = weatherData;
+    public void swapCursor(Cursor cursor) {
+        mCursor = cursor;
         notifyDataSetChanged();
+    }
+
+    public interface ForecastAdapterOnClickHandler {
+        void onClick(String weatherItem);
     }
 
     public class ForecastAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -64,9 +83,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
         @Override
         public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            String weatherItem = weatherData[adapterPosition];
-            onClickHandler.onClick(weatherItem);
+            String weatherForDay = weatherTextView.getText().toString();
+            onClickHandler.onClick(weatherForDay);
         }
     }
 
