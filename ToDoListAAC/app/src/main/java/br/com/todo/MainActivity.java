@@ -1,13 +1,17 @@
 package br.com.todo;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 
 import java.util.List;
@@ -52,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
                     public void run() {
                         int position = viewHolder.getAdapterPosition();
                         mDatabase.taskDao().delete(mAdapter.getTasks().get(position));
-                        retrieveTasks();
                     }
                 });
             }
@@ -69,25 +72,16 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         });
 
         mDatabase = AppDatabase.getInstance(getApplicationContext());
+        setupViewModel();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        retrieveTasks();
-    }
-
-    private void retrieveTasks() {
-        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+    private void setupViewModel() {
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
             @Override
-            public void run() {
-                final List<TaskEntry> tasks = mDatabase.taskDao().findAll();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.setTasks(tasks);
-                    }
-                });
+            public void onChanged(@Nullable List<TaskEntry> taskEntries) {
+                Log.d(TAG, "Updating list of tasks from LiveData in ViewModel");
+                mAdapter.setTasks(taskEntries);
             }
         });
     }
