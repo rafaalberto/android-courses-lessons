@@ -10,16 +10,19 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import java.math.BigInteger;
 import java.util.Objects;
 
-public class AddNoteActivity extends AppCompatActivity {
+public class AddEditNoteActivity extends AppCompatActivity {
 
+    public static final String EXTRA_ID = "br.com.architecture.EXTRA_ID";
     public static final String EXTRA_TITLE = "br.com.architecture.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION = "br.com.architecture.EXTRA_DESCRIPTION";
     public static final String EXTRA_PRIORITY = "br.com.architecture.EXTRA_PRIORITY";
 
     public static final int PRIORITY_MIN_VALUE = 1;
     public static final int PRIORITY_MAX_VALUE = 10;
+    public static final int DEFAULT_VALUE_NO_ID = -1;
 
     EditText editTextTitle;
     EditText editTextDescription;
@@ -38,7 +41,16 @@ public class AddNoteActivity extends AppCompatActivity {
         numberPickerPriority.setMaxValue(PRIORITY_MAX_VALUE);
 
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
-        setTitle("Add Note");
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(EXTRA_ID)) {
+            setTitle("Edit Note");
+            editTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            editTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
+            numberPickerPriority.setValue(intent.getIntExtra(EXTRA_PRIORITY, BigInteger.ONE.intValue()));
+        } else {
+            setTitle("Add Note");
+        }
     }
 
     @Override
@@ -62,7 +74,7 @@ public class AddNoteActivity extends AppCompatActivity {
         String description = editTextDescription.getText().toString();
         int priority = numberPickerPriority.getValue();
 
-        if(title.trim().isEmpty() || description.trim().isEmpty()) {
+        if (title.trim().isEmpty() || description.trim().isEmpty()) {
             Toast.makeText(this, "Please insert a title and description", Toast.LENGTH_LONG).show();
             return;
         }
@@ -71,6 +83,11 @@ public class AddNoteActivity extends AppCompatActivity {
         intentData.putExtra(EXTRA_TITLE, title);
         intentData.putExtra(EXTRA_DESCRIPTION, description);
         intentData.putExtra(EXTRA_PRIORITY, priority);
+
+        int id = getIntent().getIntExtra(EXTRA_ID, DEFAULT_VALUE_NO_ID);
+        if (id != DEFAULT_VALUE_NO_ID) {
+            intentData.putExtra(EXTRA_ID, id);
+        }
 
         setResult(RESULT_OK, intentData);
         finish();
