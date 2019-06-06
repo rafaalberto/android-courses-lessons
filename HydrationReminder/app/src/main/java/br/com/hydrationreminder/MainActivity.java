@@ -1,5 +1,6 @@
 package br.com.hydrationreminder;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import br.com.hydrationreminder.sync.ReminderTasks;
+import br.com.hydrationreminder.sync.WaterReminderIntentService;
 import br.com.hydrationreminder.utilities.PreferenceUtilities;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -39,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         if (mToast != null) mToast.cancel();
         mToast = Toast.makeText(this, R.string.water_chug_toast, Toast.LENGTH_SHORT);
         mToast.show();
+
+        Intent incrementWaterCountIntent = new Intent(this, WaterReminderIntentService.class);
+        incrementWaterCountIntent.setAction(ReminderTasks.ACTION_INCREMENT_WATER_COUNT);
+        startService(incrementWaterCountIntent);
     }
 
     public void updateWaterCount() {
