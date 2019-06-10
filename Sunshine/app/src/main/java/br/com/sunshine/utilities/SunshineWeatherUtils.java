@@ -35,11 +35,11 @@ public class SunshineWeatherUtils {
      * "21°C"
      */
     public static String formatTemperature(Context context, double temperature) {
-        int temperatureFormatResourceId = R.string.format_temperature_celsius;
+        int temperatureFormatResourceId = R.string.format_temperature;
 
         if (!SunshinePreferences.isMetric(context)) {
             temperature = celsiusToFahrenheit(temperature);
-            temperatureFormatResourceId = R.string.format_temperature_fahrenheit;
+            temperatureFormatResourceId = R.string.format_temperature;
         }
 
         /* For presentation, assume the user doesn't care about tenths of a degree. */

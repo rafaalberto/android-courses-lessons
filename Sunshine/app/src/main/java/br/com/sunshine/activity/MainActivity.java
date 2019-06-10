@@ -22,6 +22,7 @@ import br.com.sunshine.R;
 import br.com.sunshine.adapter.ForecastAdapter;
 import br.com.sunshine.data.SunshinePreferences;
 import br.com.sunshine.data.WeatherContract;
+import br.com.sunshine.sync.SunshineSyncUtils;
 import br.com.sunshine.utilities.FakeDataUtils;
 
 import static br.com.sunshine.data.WeatherContract.WeatherEntry.COLUMN_DATE;
@@ -62,8 +63,6 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_forecast);
         getSupportActionBar().setElevation(0f);
 
-        FakeDataUtils.insertFakeData(this);
-
         mRecyclerView = findViewById(R.id.recyclerview_forecast);
         mLoadingIndicator = findViewById(R.id.progressbar_loading);
 
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements
         showLoading();
 
         LoaderManager.getInstance(this).initLoader(FORECAST_LOADER_ID, null, MainActivity.this);
+        SunshineSyncUtils.startImmediateSync(this);
     }
 
     @NonNull
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<Cursor> loader) {
         mForecastAdapter.swapCursor(null);
     }
 
