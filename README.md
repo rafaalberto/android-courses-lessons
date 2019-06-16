@@ -1,2 +1,2 @@
-# Android Courses Lessons
-This repository contains Apps builts from Udemy, Udacity and Youtube courses
+# Android Lessons
+This repository contains Apps built from Udemy, Udacity and Youtube courses lessons.
