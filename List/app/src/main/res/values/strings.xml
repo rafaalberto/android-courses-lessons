@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">List</string>
-    <string name="continents">Continents</string>
-    <string name="countries">Countries</string>
-    <string name="name">Name</string>
-    <string name="capital">Capital</string>
-</resources>

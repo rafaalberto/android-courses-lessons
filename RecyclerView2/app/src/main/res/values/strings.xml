@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">RecyclerView</string>
-    <string name="title">Title</string>
-    <string name="year">Year</string>
-    <string name="genre">Genre</string>
-</resources>

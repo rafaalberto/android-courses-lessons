@@ -1,6 +1,0 @@
-<resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">#4b78bc</item>
-        <item name="colorButtonNormal">#4b78bc</item>
-    </style>
-</resources>
